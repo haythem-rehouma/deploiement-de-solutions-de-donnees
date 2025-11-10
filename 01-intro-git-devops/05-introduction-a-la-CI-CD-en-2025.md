@@ -1,15 +1,5 @@
 # Intégration Continue (CI) et Déploiement Continu (CD) en 2025
 
-## 0. Objectifs pédagogiques du chapitre
-
-À la fin de ce cours, les étudiantes et étudiants doivent être capables de :
-
-* Expliquer clairement ce que sont **l’Intégration Continue (CI)**, la **Livraison Continue (Continuous Delivery)** et le **Déploiement Continu (Continuous Deployment)**.
-* Décrire les **briques d’un pipeline CI/CD moderne** (Git, build, tests, artefacts, registry, déploiement, monitoring).
-* Comprendre comment CI/CD s’inscrit dans la **culture DevOps** vue précédemment.
-* Identifier les **bonnes pratiques** et les **anti-patterns** d’un pipeline CI/CD.
-* Relier les concepts à des outils actuels : **Git**, **Jenkins**, **GitHub Actions**, **GitLab CI**, **Docker**, **Kubernetes**, **Helm**, **Terraform**, **Cloud**.
-
 
 
 ## 1. Pourquoi CI/CD ? Problème de départ
