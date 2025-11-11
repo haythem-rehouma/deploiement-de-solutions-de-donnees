@@ -115,9 +115,13 @@ Imagine ton dépôt local comme ceci :
 
 ```mermaid
 flowchart LR
-    WD[Working Directory<br>(fichiers sur ton disque)] 
-      --> IDX[Index / Staging<br>(zone de préparation)]
-      --> HIST[Historique Git<br>(commits dans .git)]
+    WD["Working Directory\n(fichiers sur ton disque)"]
+    IDX["Index / Staging\n(zone de préparation)"]
+    HIST["Historique Git\n(commits dans .git)"]
+
+    WD --> IDX
+    IDX --> HIST
+
 ```
 
 * **Working Directory** : les fichiers que tu vois dans VS Code / IntelliJ / autre.
@@ -152,6 +156,8 @@ flowchart LR
     Dev2[(Dev 2)] -->|push/pull| Remote
     Dev3[(Dev 3)] -->|push/pull| Remote
 ```
+
+
 
 ### 5.2 Lien avec la CI/CD
 
@@ -207,7 +213,7 @@ En mots simples :
 
 ## 7. Pourquoi Git est si important pour CI/CD ?
 
-Avec 30 ans d’expérience derrière, je peux te dire ceci :
+Avec beaucoup d’expérience derrière dans le domaine, je peux te dire ceci :
 
 * Un pipeline CI/CD **sans Git maîtrisé**, c’est comme une autoroute sans marquage : ça roule vite… jusqu’au jour où ça se plante.
 
