@@ -53,6 +53,38 @@ sequenceDiagram
 
 
 
+```mermaid
+flowchart TB
+    Dev[Développeur<br/>git push]
+    Git[Rép. Git<br/>(GitHub / GitLab)]
+    Jenk[Jenkins CI/CD]
+    Build[Étape 1<br/>Build du projet]
+    Tests[Étape 2<br/>Tests unitaires]
+    Ok[Pipeline OK<br/>Statut SUCCESS]
+    ErrBuild[Erreur de build<br/>Logs Jenkins]
+    ErrTests[Échec tests unitaires<br/>Détails des tests]
+    NotifTeam[Notification à l'équipe<br/>(canal dev, email, etc.)]
+    NotifChef[Notification Chef de projet<br/>(email, Teams, etc.)]
+
+    Dev --> Git
+    Git -->|Webhook| Jenk
+    Jenk --> Build
+
+    Build -->|Succès| Tests
+    Build -->|Échec| ErrBuild
+
+    ErrBuild --> NotifTeam
+    ErrBuild --> NotifChef
+
+    Tests -->|Succès| Ok
+    Tests -->|Échec| ErrTests
+
+    ErrTests --> NotifTeam
+    ErrTests --> NotifChef
+```
+
+
+
 # 2. Architecture très simple
 
 - **Jenkins Server (Master/Controller)**  
