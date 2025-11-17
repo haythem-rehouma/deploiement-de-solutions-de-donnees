@@ -162,7 +162,7 @@ flowchart TD
     H --> I[09 Apply puis Save]
 ```
 
-### Explications détaillées
+### Explications
 
 ### ▣ 01 — Créez un nouveau job Jenkins → type **Pipeline** → OK.
 ### ▣ 02 — Cochez **Poll SCM** (permet d’interroger le dépôt).
