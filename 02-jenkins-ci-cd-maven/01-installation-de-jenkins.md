@@ -54,34 +54,40 @@ sequenceDiagram
 
 
 ```mermaid
+
+## Scénario :
+
+```mermaid
 flowchart TB
-    Dev[Développeur<br/>git push]
-    Git[Rép. Git<br/>(GitHub / GitLab)]
-    Jenk[Jenkins CI/CD]
-    Build[Étape 1<br/>Build du projet]
-    Tests[Étape 2<br/>Tests unitaires]
-    Ok[Pipeline OK<br/>Statut SUCCESS]
-    ErrBuild[Erreur de build<br/>Logs Jenkins]
-    ErrTests[Échec tests unitaires<br/>Détails des tests]
-    NotifTeam[Notification à l'équipe<br/>(canal dev, email, etc.)]
-    NotifChef[Notification Chef de projet<br/>(email, Teams, etc.)]
 
-    Dev --> Git
-    Git -->|Webhook| Jenk
-    Jenk --> Build
+    A[Push]
+    B[Repo]
+    C[Jenkins]
+    D[Build]
+    E[Tests]
+    F[OK]
+    G[Erreur Build]
+    H[Erreur Tests]
+    I[Notif Équipe]
+    J[Notif Chef]
 
-    Build -->|Succès| Tests
-    Build -->|Échec| ErrBuild
+    A --> B
+    B --> C
+    C --> D
 
-    ErrBuild --> NotifTeam
-    ErrBuild --> NotifChef
+    D -->|OK| E
+    D -->|Fail| G
 
-    Tests -->|Succès| Ok
-    Tests -->|Échec| ErrTests
+    G --> I
+    G --> J
 
-    ErrTests --> NotifTeam
-    ErrTests --> NotifChef
+    E -->|OK| F
+    E -->|Fail| H
+
+    H --> I
+    H --> J
 ```
+
 
 
 
