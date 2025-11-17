@@ -51,7 +51,9 @@ Ce sont exactement les commandes que Jenkins exécutera automatiquement dans la 
 # **3. Créer le projet Maven Calculatrice**
 
 Maven offre deux méthodes :
+
 ✔ **Méthode rapide (recommandée)** : Archetype
+
 ✔ **Méthode longue** : création manuelle
 
 ## **Méthode A – Création automatique (recommandée)**
