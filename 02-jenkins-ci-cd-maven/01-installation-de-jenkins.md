@@ -57,6 +57,11 @@ graph TB
 Idée : un serveur Jenkins + plusieurs agents possibles
 
 
+1. Le développeur envoie son code vers un dépôt Git, qui sert de point central pour le projet.
+2. Dès qu’un changement est poussé dans le dépôt, Jenkins Controller (le serveur Jenkins) peut être déclenché.
+3. Jenkins Controller ne fait pas forcément les builds lui-même : il orchestre et pilote les agents de build.
+4. Les agents (par exemple un agent Linux et un agent Windows) sont des machines sur lesquelles le code est réellement compilé et testé.
+5. Cette architecture permet de répartir la charge, de tester sur plusieurs environnements et de garder un Jenkins Controller léger et dédié à la coordination.
 
 
 
