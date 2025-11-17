@@ -44,7 +44,7 @@ Pour ce cours, on commence avec **un seul serveur Jenkins tout-en-un**.
 graph TB
     Dev[Développeur] --> Repo[(Dépôt Git)]
 
-    Repo --> J[Jenkins Controller\n(Serveur Jenkins)]
+    Repo --> J[Jenkins Controller   (Serveur Jenkins)]
 
     subgraph Agents_de_build
         A1[Agent Linux]
