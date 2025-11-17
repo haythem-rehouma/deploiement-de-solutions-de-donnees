@@ -53,7 +53,7 @@ sequenceDiagram
 
 
 
-```mermaid
+
 
 ## Scénario :
 
