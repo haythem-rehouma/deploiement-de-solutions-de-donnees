@@ -25,6 +25,32 @@ Le schéma suivant montre le rôle de Jenkins dans une chaîne CI/CD très simpl
 
 
 
+```mermaid
+sequenceDiagram
+    participant Dev as Développeur
+    participant Git as Rép. Git (GitHub/GitLab)
+    participant Jen as Jenkins (CI/CD)
+    participant Notif as Notifications<br/>(Équipe + Chef de projet)
+
+    Dev->>Git: git push (nouveau code)
+    Git-->>Jen: Webhook / déclenchement du job
+
+    Jen->>Jen: Étape 1 : Build
+
+    alt Build réussi
+        Jen->>Jen: Étape 2 : Tests unitaires
+
+        alt Tests OK
+            Jen-->>Dev: Statut SUCCESS (vert)
+        else Tests en échec
+            Jen-->>Notif: Message d’erreur + logs<br/>à l’équipe + chef de projet
+        end
+
+    else Build en échec
+        Jen-->>Notif: Message d’erreur build<br/>à l’équipe + chef de projet
+    end
+```
+
 
 
 # 2. Architecture très simple
