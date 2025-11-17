@@ -12,6 +12,20 @@ Il permet d’automatiser les tâches suivantes :
 En résumé : **au lieu de lancer les commandes à la main**, on les confie à Jenkins qui les exécute à chaque changement de code.
 
 
+```mermaid
+flowchart LR
+    Dev[Développeur] -->|git push| Repo[(Dépôt Git)]
+    Repo -->|webhook| Jenkins[Jenkins Server]
+    Jenkins -->|Build + Tests Maven| Artefact[(Artefact .jar / .war)]
+    Artefact -->|Déploiement| Server[Serveur d'application]
+```
+
+
+Le schéma suivant montre le rôle de Jenkins dans une chaîne CI/CD très simple :
+
+
+
+
 
 # 2. Architecture très simple
 
