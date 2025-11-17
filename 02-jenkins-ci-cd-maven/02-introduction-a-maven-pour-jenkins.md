@@ -7,7 +7,7 @@ Il suit une progression claire :
 2. Créer un **projet Maven calculatrice** (manuellement ou automatiquement)
 3. Écrire le **code + tests**
 4. Exécuter les principales commandes Maven
-5. Préparer l’intégration dans **Jenkins (partie 3)**
+5. Préparer l’intégration dans *Jenkins*
 
 
 
