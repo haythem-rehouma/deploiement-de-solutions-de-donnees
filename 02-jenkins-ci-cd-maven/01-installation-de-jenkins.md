@@ -98,6 +98,7 @@ Jenkins est maintenant installé comme **service Windows** et démarre automatiq
 
 
 
+
 # 4. Installation de Jenkins sur Linux (Ubuntu/Debian)
 
 ## 4.1. Prérequis
@@ -207,10 +208,29 @@ on garde sa machine principale propre et on installe Jenkins dans un environneme
 | Paquet Debian/apt   | Linux     |      Moyen | Serveur Jenkins “sérieux” (prod/test)           |
 | Jenkins dans une VM | Linux/Win |     Moyen+ | Cours, TP, environnement isolé et reproductible |
 
-Pour un **cours**, il est souvent intéressant de :
 
-* Montrer rapidement **Windows** (effet “wow, ça marche”).
-* Faire ensuite **toute la pratique** sur une **VM Linux** (plus proche de la réalité DevOps).
+
+
+
+
+## Choix entre les 3 méthodes d’installation
+
+Le diagramme suivant résume les 3 scénarios classiques d’installation de Jenkins que nous utilisons dans ce cours :
+
+```mermaid
+flowchart TD
+    Start([Installer Jenkins]) --> OS{Système d'exploitation / Contexte ?}
+
+    OS -->|Poste perso Windows| Win[Installateur Jenkins .msi<br/>Service Windows]
+    OS -->|Serveur Linux| Lin[Installation via dépôt apt<br/>jenkins.io (Debian/Ubuntu)]
+    OS -->|Environnement pédagogique| VM[Créer une VM Linux<br/>puis installer Jenkins]
+
+    VM --> Lin
+```
+
+
+
+
 
 
 
