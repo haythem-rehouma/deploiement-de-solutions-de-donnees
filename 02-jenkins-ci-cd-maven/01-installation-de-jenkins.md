@@ -43,8 +43,7 @@ Pour ce cours, on commence avec **un seul serveur Jenkins tout-en-un**.
 ```mermaid
 graph TB
     Dev[Développeur] --> Repo[(Dépôt Git)]
-
-    Repo --> J[Jenkins Controller   (Serveur Jenkins)]
+    Repo --> J[Jenkins Controller / Serveur Jenkins]
 
     subgraph Agents_de_build
         A1[Agent Linux]
@@ -53,7 +52,6 @@ graph TB
 
     J --> A1
     J --> A2
-
 ```
 
 Idée : un serveur Jenkins + plusieurs agents possibles
