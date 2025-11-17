@@ -1,4 +1,4 @@
-#  ** MAVEN + JENKINS (Projet Calculatrice Java) - Partie 1**
+#  **MAVEN + JENKINS (Projet Calculatrice Java) - Partie 1**
 
 Ce tutoriel couvre **toute la partie Maven** avant l’intégration dans Jenkins.
 Il suit une progression claire :
