@@ -38,6 +38,32 @@ Pour ce cours, on commence avec **un seul serveur Jenkins tout-en-un**.
 
 
 
+
+
+```mermaid
+graph TB
+    Dev[Développeur] --> Repo[(Dépôt Git)]
+
+    Repo --> J[Jenkins Controller<br/>(Serveur Jenkins)]
+
+    subgraph Agents_de_build
+        A1[Agent Linux]
+        A2[Agent Windows]
+    end
+
+    J --> A1
+    J --> A2
+```
+
+Idée : un serveur Jenkins + plusieurs agents possibles
+
+
+
+
+
+
+
+
 # 3. Installation de Jenkins sur Windows
 
 ## 3.1. Prérequis
