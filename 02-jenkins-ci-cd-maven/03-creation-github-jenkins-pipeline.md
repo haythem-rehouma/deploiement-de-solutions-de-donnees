@@ -164,22 +164,22 @@ flowchart TD
 
 ### Explications détaillées
 
-01 — Créez un nouveau job Jenkins → type **Pipeline** → OK.
-02 — Cochez **Poll SCM** (permet d’interroger le dépôt).
-03 — Choisissez **Pipeline Script from SCM**.
-04 — SCM = **Git**.
-05 — Entrez l’URL de votre dépôt GitHub :
+### ▣ 01 — Créez un nouveau job Jenkins → type **Pipeline** → OK.
+### ▣ 02 — Cochez **Poll SCM** (permet d’interroger le dépôt).
+### ▣ 03 — Choisissez **Pipeline Script from SCM**.
+### ▣ 04 — SCM = **Git**.
+### ▣ 05 — Entrez l’URL de votre dépôt GitHub :
 `https://github.com/votre_user/votre_repo.git`
-06 — Cliquez sur **Add → Jenkins → Username with password**
+### ▣ 06 — Cliquez sur **Add → Jenkins → Username with password**
 
 * Username : votre identifiant GitHub
 * Password : votre **token GitHub**
 
-07 — Sélectionnez le credentials fraîchement créé.
-08 — Dans **Branch Specifier**, utilisez :
+### ▣ 07 — Sélectionnez le credentials fraîchement créé.
+### ▣ 08 — Dans **Branch Specifier**, utilisez :
 `*/main`
 (surtout pas `*/master` si votre dépôt utilise main).
-09 — Cliquez sur **Apply**, puis **Save**.
+### ▣ 09 — Cliquez sur **Apply**, puis **Save**.
 
 ---
 
