@@ -281,22 +281,6 @@ on garde sa machine principale propre et on installe Jenkins dans un environneme
 
 
 
-## Choix entre les 3 méthodes d’installation
-
-Le diagramme suivant résume les 3 scénarios classiques d’installation de Jenkins que nous utilisons dans ce cours :
-
-```mermaid
-flowchart TD
-    Start([Installer Jenkins]) --> OS{Système d'exploitation / Contexte ?}
-
-    OS -->|Poste perso Windows| Win[Installateur Jenkins .msi<br/>Service Windows]
-    OS -->|Serveur Linux| Lin[Installation via dépôt apt<br/>jenkins.io (Debian/Ubuntu)]
-    OS -->|Environnement pédagogique| VM[Créer une VM Linux<br/>puis installer Jenkins]
-
-    VM --> Lin
-```
-
-
 
 
 
