@@ -7,7 +7,7 @@ L’objectif est de mettre en place un pipeline réellement exploitable en entre
 
 <br/>
 
-### 1. Énoncé officiel de la pratique
+# 1. Énoncé officiel de la pratique
 
 **01-PRATIQUE – Déclencher un Pipeline Jenkins avec GitHub**
 Lien :
@@ -17,7 +17,7 @@ Veuillez lire attentivement toutes les étapes avant de commencer.
 
 <br/>
 
-### 2. Corrections détaillées
+# 2. Corrections détaillées
 
 Ces corrections sont fournies comme **références de qualité professionnelle**. Elles ne remplacent pas votre propre travail, mais doivent vous servir à comparer, valider et améliorer votre solution.
 
@@ -35,7 +35,7 @@ Je vous recommande de :
 
 <br/>
 
-### 3. Dossier complet – Ressources de la pratique
+# 3. Dossier complet – Ressources de la pratique
 
 Vous pouvez également accéder à l’ensemble des fichiers liés à cette pratique (documents, exemples, matériaux complémentaires) via le dossier suivant :
 
@@ -44,7 +44,103 @@ Vous pouvez également accéder à l’ensemble des fichiers liés à cette prat
 
 <br/>
 
-### 4. Attendus pédagogiques
+
+
+
+
+
+<br/>
+
+# 4. Exemple de Jenkinsfile pour Windows
+
+
+- Dépôt : https://github.com/haythem-rehouma/hello-python
+
+```groovy
+pipeline {
+    agent any
+    environment {
+        JAVA_HOME = 'C:\\Program Files\\Java\\jdk1.8.0_202'
+        PYTHON_HOME = 'C:\\Users\\rehou\\AppData\\Local\\Programs\\Python\\Python39'
+        PATH = "${env.PATH};${JAVA_HOME}\\bin;${PYTHON_HOME}"
+    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/haythem-rehouma/hello-python.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'echo "Running on Unix"'
+                        sh 'javac HelloWorld.java'
+                        sh 'java HelloWorld'
+                        sh 'python3 hello.py'
+                    } else {
+                        bat 'echo "Running on Windows"'
+                        bat 'javac HelloWorld.java'
+                        bat 'java HelloWorld'
+                        bat 'python hello.py'
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+
+Le premier bloc est un **bloc `environment` de Jenkinsfile** 👉 ça sert à définir des **variables d’environnement** pour notre pipeline Jenkins.
+
+```groovy
+environment {
+    JAVA_HOME   = 'C:\\Program Files\\Java\\jdk1.8.0_202'
+    PYTHON_HOME = 'C:\\Users\\rehou\\AppData\\Local\\Programs\\Python\\Python39'
+    PATH        = "${env.PATH};${JAVA_HOME}\\bin;${PYTHON_HOME}"
+}
+```
+
+### 4.1. Ça fait quoi ?
+
+* `JAVA_HOME` → indique à Jenkins où se trouve ton JDK Java.
+* `PYTHON_HOME` → indique où se trouve ton interpréteur Python.
+* `PATH` → on prend le PATH actuel (`${env.PATH}`) et on **ajoute** :
+
+  * `...;${JAVA_HOME}\bin`
+  * `...;${PYTHON_HOME}`
+    👉 Comme ça, les commandes `java`, `javac`, `python`, etc. sont trouvées automatiquement pendant le build.
+
+### 4.2. Windows ou Linux ?
+
+Ici l'environnement c’est **Windows** :
+
+* Chemins avec `C:\...`
+* Séparateur dans `PATH` = `;` (sur Linux c’est `:`)
+* Antislash `\` au lieu de `/`
+
+Sur **Linux**, ce serait plutôt une syntaxe comme :
+
+```groovy
+environment {
+    JAVA_HOME   = '/usr/lib/jvm/java-17-openjdk-amd64'
+    PYTHON_HOME = '/usr/bin/python3'
+    PATH        = "${env.PATH}:${JAVA_HOME}/bin:${PYTHON_HOME}"
+}
+```
+
+Donc :
+➡️ C’est un **bloc Jenkins declarative pipeline**, et notre version est prévue pour **un agent Jenkins sous Windows**.
+
+
+
+<br/>
+
+
+
+
+# 5. Attendus pédagogiques
 
 À l’issue de cette pratique, vous devez être capable de :
 
