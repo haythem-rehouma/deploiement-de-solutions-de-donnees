@@ -1,4 +1,4 @@
-# **PRATIQUE 1 — Hello World avec Jenkins (Windows)**
+# **PRATIQUE 2 — Hello World avec Jenkins (Windows)**
 
 
 ## **Table des matières**
