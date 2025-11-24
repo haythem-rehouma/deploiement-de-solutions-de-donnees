@@ -1,4 +1,4 @@
-**Objet : 01-PRATIQUE – Pipeline Jenkins + GitHub : énoncé, corrections et ressources**
+**PRATIQUE – Pipeline Jenkins + GitHub : énoncé, corrections et ressources**
 
 Bonjour à toutes et à tous,
 
