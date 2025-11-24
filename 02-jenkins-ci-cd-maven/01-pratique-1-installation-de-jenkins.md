@@ -284,6 +284,123 @@ on garde sa machine principale propre et on installe Jenkins dans un environneme
 
 
 
+<br/­>
+
+# Annexe 1 - Installation de JAVA sur Ubuntu 24.04
+
+
+
+## Annexe 1.1. Mettre le système à jour
+
+```bash
+sudo apt update
+sudo apt upgrade
+```
+
+
+## Annexe 1.2. Choisir la version de Java
+
+Sur Ubuntu 24.04, les choix classiques sont :
+
+* **OpenJDK 17** → version LTS stable
+* **OpenJDK 21** → LTS plus récente, recommandée pour les nouveaux projets
+
+Tu peux installer l’une ou l’autre (ou les deux).
+
+### Option A – Installer OpenJDK 17
+
+```bash
+sudo apt install openjdk-17-jdk
+```
+
+### Option B – Installer OpenJDK 21
+
+```bash
+sudo apt install openjdk-21-jdk
+```
+
+
+
+## Annexe 1.3. Vérifier l’installation
+
+```bash
+java -version
+javac -version
+```
+
+Tu dois obtenir quelque chose comme :
+
+```text
+openjdk version "21.0.x"  ou  "17.0.x"
+```
+
+
+## Annexe 1.4. Choisir la version par défaut (si plusieurs JDK installés)
+
+Si tu as installé plusieurs versions :
+
+```bash
+sudo update-alternatives --config java
+sudo update-alternatives --config javac
+```
+
+Puis sélectionne le numéro de la version que tu veux utiliser par défaut (17 ou 21).
+
+
+
+## Annexe 1.5. Configurer la variable d’environnement `JAVA_HOME`
+
+1. Trouver le chemin de Java :
+
+   ```bash
+   readlink -f $(which java)
+   ```
+
+   Exemple de résultat :
+
+   ```text
+   /usr/lib/jvm/java-21-openjdk-amd64/bin/java
+   ```
+
+2. Le `JAVA_HOME` correspond au dossier **juste au-dessus de** `bin`, donc ici :
+
+   ```text
+   /usr/lib/jvm/java-21-openjdk-amd64
+   ```
+
+3. Ajouter `JAVA_HOME` dans ton `~/.bashrc` :
+
+   ```bash
+   echo 'export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64' >> ~/.bashrc
+   echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
+   source ~/.bashrc
+   ```
+
+4. Vérifier :
+
+   ```bash
+   echo $JAVA_HOME
+   which java
+   java -version
+   ```
+
+
+## Annexe 1.6. (Optionnel) Gérer plusieurs JDK avec SDKMAN!
+
+Si tu joues avec plusieurs versions (11, 17, 21, etc.), **SDKMAN!** est très pratique :
+
+```bash
+curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk list java          # liste des versions disponibles
+sdk install java 21.0.5-tem
+sdk default java 21.0.5-tem
+```
+
+SDKMAN! s’occupe aussi de `JAVA_HOME`.
+
+
+
 
 
 
