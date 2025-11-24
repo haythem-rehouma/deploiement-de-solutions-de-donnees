@@ -60,7 +60,7 @@ dir
 * **C:**
   Change le lecteur actif vers le lecteur C:.
 
-* **cd \**
+* cd \
   Déplace le répertoire courant à la racine du lecteur.
 
 * **dir**
