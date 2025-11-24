@@ -1,4 +1,4 @@
-# Pratique 4 - Partie 1
+# Pratique 5 - Partie 1
 
 
 1. Complétez le pipeline suivant en YAML en ajoutant l'étape manquante pour exécuter `python main.py` dans un environnement avec `requirements.txt`.
@@ -130,7 +130,7 @@ pipeline {
 <br/>
 
 
-# Pratique 4 - Partie 2
+# Pratique 5 - Partie 2
 
 **Extraction, transformation et publication automatisées d’offres d’emploi**
 
