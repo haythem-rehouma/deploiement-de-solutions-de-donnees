@@ -404,3 +404,133 @@ SDKMAN! s’occupe aussi de `JAVA_HOME`.
 
 
 
+
+
+<br/­>
+
+# Annexe 2 - Installer Jenkins sur Ubuntu 24.04
+
+
+
+## 1. Mettre le système à jour
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+(Installe aussi `wget` si besoin 🙂
+
+```bash
+sudo apt install wget curl -y
+```
+
+([Hostperl][1])
+
+
+
+## 2. Ajouter la clé GPG officielle de Jenkins
+
+```bash
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+  https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+```
+
+([RoseHosting][2])
+
+
+## 3. Ajouter le dépôt Jenkins pour Ubuntu 24.04
+
+```bash
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+https://pkg.jenkins.io/debian-stable binary/" | sudo tee \
+/etc/apt/sources.list.d/jenkins.list > /dev/null
+```
+
+Puis mettre à jour la liste des paquets :
+
+```bash
+sudo apt update
+```
+
+([FOSS TechNix][3])
+
+---
+
+## 4. Installer Jenkins
+
+```bash
+sudo apt install jenkins -y
+```
+
+([RoseHosting][2])
+
+
+
+## 5. Démarrer et activer le service Jenkins
+
+```bash
+sudo systemctl start jenkins
+sudo systemctl enable jenkins
+sudo systemctl status jenkins
+```
+
+Le statut doit afficher `active (running)`. ([RoseHosting][2])
+
+
+
+## 6. Ouvrir le port 8080 (si tu as un firewall)
+
+Avec **ufw** :
+
+```bash
+sudo ufw allow 8080
+sudo ufw reload
+sudo ufw status
+```
+
+([cherryservers.com][4])
+
+
+
+## 7. Accéder à l’interface Web Jenkins
+
+Sur ton navigateur :
+
+```text
+http://ton-serveur:8080
+```
+
+* Si tu es sur la même machine : `http://localhost:8080`
+
+Jenkins demande un **mot de passe initial**.
+
+Récupère-le avec :
+
+```bash
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Copie-colle ce mot de passe dans la page Jenkins. ([RoseHosting][2])
+
+
+
+## 8. Premier démarrage (plugins + admin)
+
+Sur l’interface :
+
+1. Choisis **“Install suggested plugins”** (plugins recommandés).
+2. Crée ton **utilisateur administrateur** (login / mot de passe).
+3. Valide l’URL de Jenkins (en général `http://ton-serveur:8080`).
+4. Clique sur **“Start using Jenkins”**.
+
+À partir de là, tu peux créer ton premier **Pipeline déclaratif**, ou un **Freestyle Job**.
+
+
+
+- [1]: https://hostperl.com/kb/tutorials/how-to-install-jenkins-on-ubuntu-2404?utm_source=chatgpt.com "How to Install Jenkins on Ubuntu 24.04"
+- [2]: https://www.rosehosting.com/blog/how-to-install-jenkins-on-ubuntu-24-04/?srsltid=AfmBOoqp8J_-XqIUdHehml17eUYlG7HOqrrlAVyqxvdOTj_6tJELCc9P&utm_source=chatgpt.com "How to Install Jenkins on Ubuntu 24.04"
+- [3]: https://www.fosstechnix.com/how-to-install-jenkins-on-ubuntu-24-04-lts/?utm_source=chatgpt.com "How to Install Jenkins on Ubuntu 24.04 LTS"
+- [4]: https://www.cherryservers.com/blog/install-jenkins-ubuntu?utm_source=chatgpt.com "How to Install Jenkins on Ubuntu 24.04: Step-by-Step"
+
+
+
