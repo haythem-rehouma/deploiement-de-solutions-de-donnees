@@ -62,7 +62,7 @@ pipeline {
 Ce Jenkinsfile est **le cœur du pipeline**.
 Ce qui manque pour la pratique, c’est **le déclenchement automatique via webhook GitHub**.
 
----
+<br/>
 
 ## 1. Webhooks, Jenkins, ngrok : qui fait quoi ?
 
