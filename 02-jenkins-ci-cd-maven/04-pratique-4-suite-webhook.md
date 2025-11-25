@@ -357,39 +357,39 @@ Sur une machine de développement :
 
 ## 3. Partie pédagogique
 
-Une séquence possible pour animer ce contenu :
+Discussion :
 
 1. **10–15 minutes de théorie**
 
-   * Rappeler le rôle de Jenkins en CI/CD.
+   * Rappelons le rôle de Jenkins en CI/CD.
 
-   * Expliquer la différence :
+   * Expliquons la différence :
 
      * Build manuel,
      * Polling Git (toutes les X minutes),
      * Webhook GitHub → Jenkins (réactif, moderne).
 
-   * Expliquer pourquoi :
+   * Expliquons pourquoi :
 
      * ngrok n’est pas nécessaire sur une VM Azure exposée avec IP publique,
      * ngrok devient utile sur une installation locale sans IP publique.
 
 2. **30 minutes de démonstration guidée**
 
-   * Montrer la création du job Jenkins.
+   * Montrons la création du job Jenkins.
 
-   * Coller le Jenkinsfile, expliquer chaque bloc :
+   * Collons le Jenkinsfile, expliquer chaque bloc :
 
      * `agent any`
      * `environment`
      * `stages`
      * `Checkout` vs `Build`.
 
-   * Lancer un premier build manuel.
+   * Lançons un premier build manuel.
 
-   * Montrer ensuite la configuration du **Build Trigger** et du **Webhook GitHub**.
+   * Montrons ensuite la configuration du **Build Trigger** et du **Webhook GitHub**.
 
-   * Faire un push en direct sur `README.md` et montrer le build qui se déclenche.
+   * Faison un push en direct sur `README.md` et montrer le build qui se déclenche.
 
 3. **Travail à réaliser**
 
@@ -397,7 +397,7 @@ Une séquence possible pour animer ce contenu :
    * Configurer le webhook GitHub.
    * Tester avec la modification de `README.md`.
 
-   Pour la remise, demander :
+   Pour la remise, il faut m'envoyer :
 
    * Une capture d’écran de la page Webhook GitHub (delivery 200),
    * Une capture d’écran d’un build Jenkins réussi déclenché par webhook,
