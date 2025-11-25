@@ -5,7 +5,7 @@
 À la fin de ce cours, vous devez être capable de :
 
 1. Expliquer **à quoi sert un webhook** GitHub et pourquoi on en a besoin avec Jenkins.
-2. Comprendre **dans quels cas ngrok est utile** et pourquoi, dans notre scénario Azure, il ne l’est pas.
+2. Comprendre **dans quels cas ngrok est utile** et pourquoi, dans un scénario Azure, il ne l’est pas.
 3. Configurer **de A à Z** un pipeline Jenkins qui se déclenche automatiquement quand on modifie `README.md` dans un dépôt GitHub :
 
    * Jenkinsfile fonctionnel (Java + Python),
@@ -99,7 +99,7 @@ http://ADRESSE_PUBLIQUE:8080/github-webhook/
 
 Deux situations :
 
-#### Situation A – Serveur Jenkins avec IP publique (ton cas : VM Azure)
+#### Situation A – Serveur Jenkins avec IP publique (VM Azure)
 
 * Jenkins est sur une **VM Azure**.
 * La VM a une **IP publique**.
@@ -112,19 +112,19 @@ Deux situations :
 
 Dans ce cas :
 **Aucun besoin de ngrok.**
-Ton serveur est déjà « dans le monde » avec une IP publique.
+Le serveur est déjà exposé sur Internet avec une IP publique.
 
 #### Situation B – Jenkins sur un poste local (PC perso, laptop, VM interne)
 
-* Jenkins tourne sur ton laptop chez toi ou sur une VM dans un réseau privé.
+* Jenkins tourne sur un ordinateur personnel ou une VM dans un réseau privé.
 * Pas d’IP publique.
 * GitHub ne peut pas atteindre `http://localhost:8080`.
 
 Dans ce cas, on utilise **ngrok** :
 
-* Ngrok ouvre un **tunnel sécurisé** de GitHub vers ta machine.
+* Ngrok ouvre un **tunnel sécurisé** de GitHub vers la machine locale.
 
-* Tu obtiens une URL publique du type :
+* On obtient une URL publique du type :
 
   ```text
   https://xxxxx.ngrok.io/github-webhook/
@@ -138,25 +138,23 @@ Donc, **ngrok est une béquille pour exposer temporairement un Jenkins local** s
 
 ---
 
-### 1.3. Conclusion pédagogique
+### 1.3. Conclusion
 
 * Sur **VM Azure** avec IP publique :
-  ➜ On configure directement le webhook GitHub vers `http://IP_PUBLIQUE:8080/github-webhook/`.
+  ➜ Configurer directement le webhook GitHub vers `http://IP_PUBLIQUE:8080/github-webhook/`.
 
 * Sur **laptop / réseau local sans IP publique** :
-  ➜ On utilise **ngrok** pour obtenir une URL publique temporaire.
-
-Dans ton cours, tu peux expliquer les deux, mais le TP « officiel » repose sur **Azure (sans ngrok)**.
+  ➜ Utiliser **ngrok** pour obtenir une URL publique temporaire.
 
 ---
 
 ## 2. Mise en place complète du pipeline Jenkins + GitHub (cas VM Azure, sans ngrok)
 
-Je vais procéder comme en cours, étape par étape.
+La configuration se fait étape par étape.
 
 ### 2.1. Pré-requis techniques
 
-Sur la **VM Jenkins (Ubuntu 24.04 sur Azure)**, on doit disposer de :
+Sur la **VM Jenkins (Ubuntu 24.04 sur Azure)**, il faut disposer de :
 
 1. Java installé (JDK 21 par exemple) :
 
@@ -176,7 +174,7 @@ which python3        # /usr/bin/python3
 python3 --version
 ```
 
-3. Jenkins installé et en fonctionnement (ce que tu as déjà fait) :
+3. Jenkins installé et en fonctionnement :
 
 ```bash
 sudo systemctl status jenkins
@@ -203,85 +201,88 @@ sudo systemctl status jenkins
 
 Deux options :
 
-* Soit tu colles le Jenkinsfile directement dans le job,
-* Soit tu le mets dans le repo (`Jenkinsfile`) et tu configures Jenkins pour le lire depuis Git.
-
-
+* Coller le Jenkinsfile directement dans le job,
+* Ou le déposer dans le repo (`Jenkinsfile`) et configurer Jenkins pour le lire depuis Git.
 
 #### Option A – Pipeline Script (plus simple pour débuter)
 
-1. Connecte-toi à Jenkins : `http://IP_PUBLIQUE_VM:8080/`.
-2. Clique sur **New Item**.
-3. Donne un nom au job, par exemple :
+1. Se connecter à Jenkins : `http://IP_PUBLIQUE_VM:8080/`.
+
+2. Cliquer sur **New Item**.
+
+3. Donner un nom au job, par exemple :
    `01-hello-python-linux-pipeline`.
-4. Choisis **Pipeline** puis clique sur **OK**.
+
+4. Choisir **Pipeline** puis cliquer sur **OK**.
+
 5. Dans la page de configuration :
 
-   * Descends jusqu’à **Pipeline**.
-   * Sélectionne **Definition: Pipeline script**.
-   * Colle **le Jenkinsfile complet** dans la zone Script (celui que tu as fourni).
-6. Sauvegarde (**Save**).
+   * Descendre jusqu’à **Pipeline**.
+   * Sélectionner **Definition: Pipeline script**.
+   * Coller **le Jenkinsfile complet** dans la zone Script (celui indiqué au début du cours).
 
-À ce stade, ton job sait :
+6. Sauvegarder (**Save**).
+
+À ce stade, le job sait :
 
 * Sur quel agent s’exécuter (`agent any`),
 * Comment configurer l’environnement (`JAVA_HOME`, `PYTHON_HOME`, `PATH`),
 * Quoi faire dans les stages (`Checkout` + `Build`).
 
-Tu peux tester un premier run manuel avec **Build Now** pour vérifier que tout est correct avant d’introduire le webhook.
+Un premier run manuel avec **Build Now** permet de vérifier que tout est correct avant d’introduire le webhook.
 
-
+---
 
 ### 2.3. Étape 2 – Tester le pipeline manuellement (sans webhook)
 
-1. Dans la page du job, clique sur **Build Now**.
-2. Va dans **Console Output** du build en cours.
+1. Dans la page du job, cliquer sur **Build Now**.
+2. Ouvrir **Console Output** du build en cours.
 
-Tu dois voir :
+On doit voir :
 
 * Le checkout Git du repo `hello-python-linux`.
 * Le message `Running on Unix`.
 * L’exécution de `javac` / `java` (si les fichiers existent) et `python3 hello.py`.
 
-Si quelque chose échoue, tu corriges :
+Si quelque chose échoue, corriger :
 
 * Les chemins Java/Python,
-* Le Jenkinsfile (par exemple commenter `javac` si tu n’as pas de `HelloWorld.java` dans ce repo).
+* Le Jenkinsfile (par exemple commenter `javac` si `HelloWorld.java` n’existe pas dans ce repo).
 
 Une fois que le pipeline passe **manuellement**, on peut passer au webhook.
 
-
+---
 
 ### 2.4. Étape 3 – Activer le déclencheur GitHub dans Jenkins
 
 Dans le même job :
 
-1. Clique sur **Configure**.
+1. Cliquer sur **Configure**.
 
-2. Descends à la section **Build Triggers**.
+2. Descendre à la section **Build Triggers**.
 
-3. Coche :
+3. Cocher :
 
    * **GitHub hook trigger for GITScm polling**
      (ou éventuellement **Build when a change is pushed to GitHub** selon la version).
 
-4. Sauvegarde (**Save**).
+4. Sauvegarder (**Save**).
 
-Ce déclencheur dit à Jenkins :
-« Si GitHub m’envoie un webhook, je dois consulter le dépôt Git et potentiellement lancer un build. »
+Ce déclencheur indique à Jenkins :
+« Quand GitHub m’envoie un webhook, je vais consulter le dépôt Git et décider de lancer un build. »
 
-
+---
 
 ### 2.5. Étape 4 – Créer le webhook dans GitHub
 
 Sur GitHub, dans le dépôt `hello-python-linux` :
 
-1. Ouvre la page du dépôt.
-2. Clique sur **Settings** (onglet du repo).
-3. Dans le menu de gauche, clique sur **Webhooks**.
-4. Clique sur **Add webhook**.
+1. Ouvrir la page du dépôt.
+2. Cliquer sur **Settings** (onglet du repo).
+3. Dans le menu de gauche, cliquer sur **Webhooks**.
+4. Cliquer sur **Add webhook**.
 
-Complète les champs :
+Compléter les champs :
 
 * **Payload URL** :
 
@@ -289,7 +290,7 @@ Complète les champs :
   http://IP_PUBLIQUE_DE_LA_VM:8080/github-webhook/
   ```
 
-  Attention au `/` final, c’est l’URL standard de Jenkins pour GitHub.
+  Le `/` final est important : c’est l’URL standard de Jenkins pour GitHub.
 
 * **Content type** :
 
@@ -297,36 +298,36 @@ Complète les champs :
   application/json
   ```
 
-* **Secret** (optionnel mais recommandé, même dans un TP) :
+* **Secret** (optionnel mais recommandé, même dans une pratique encadrée) :
 
-  * Par exemple : `devops-jenkins-2025`
-  * Si tu le mets, pense à le configurer côté Jenkins (Manage Jenkins → Configure System → GitHub → ajouter un serveur GitHub et le secret).
+  * Par exemple : `devops-jenkins-2025`.
+  * Si un secret est utilisé, il faut le configurer côté Jenkins (Manage Jenkins → Configure System → GitHub → ajouter un serveur GitHub et le secret).
 
 * **Which events would you like to trigger this webhook?**
 
-  * Choisis **Just the push event**.
+  * Choisir **Just the push event**.
 
-* Coche **Active**.
+* Cocher **Active**.
 
-* Clique sur **Add webhook**.
+* Cliquer sur **Add webhook**.
 
-GitHub va envoyer immédiatement un **Ping** vers Jenkins.
-Dans la page Webhooks, tu peux cliquer sur le webhook → **Recent deliveries** → tu dois voir un statut **200** si Jenkins a bien répondu.
+GitHub envoie immédiatement un **Ping** vers Jenkins.
+Dans la page Webhooks, il est possible de cliquer sur le webhook → **Recent deliveries** → un statut **200** indique que Jenkins a bien répondu.
 
-
+---
 
 ### 2.6. Étape 5 – Tester le déclenchement automatique (modification de README.md)
 
-Sur ta machine de développement :
+Sur une machine de développement :
 
-1. Clone le dépôt s’il ne l’est pas déjà :
+1. Cloner le dépôt si nécessaire :
 
    ```bash
    git clone https://github.com/haythem-rehouma/hello-python-linux.git
    cd hello-python-linux
    ```
 
-2. Modifie `README.md` :
+2. Modifier `README.md` :
 
    ```bash
    echo "Test webhook Jenkins - $(date)" >> README.md
@@ -340,69 +341,75 @@ Sur ta machine de développement :
    git push origin main
    ```
 
-4. Retourne sur Jenkins :
+4. Revenir sur Jenkins :
 
-   * Sur la page du job, tu dois voir un **nouveau build** se lancer automatiquement.
-   * Vérifie la **Console Output** pour t’assurer que :
+   * Sur la page du job, un **nouveau build** doit se lancer automatiquement.
+   * Dans la **Console Output**, vérifier que :
 
      * Le code a bien été mis à jour,
      * Les commandes Java/Python se sont bien exécutées.
 
-5. Testez :
+5. Critère de validation :
 
-   > Lorsque vous modifiez `README.md` et poussez sur GitHub, un build Jenkins doit se déclencher automatiquement **sans cliquer sur Build Now**.
+   > Lorsque `README.md` est modifié et poussé sur GitHub, un build Jenkins doit se déclencher automatiquement **sans cliquer sur Build Now**.
 
-
+---
 
 ## 3. Partie pédagogique
+
+Une séquence possible pour animer ce contenu :
 
 1. **10–15 minutes de théorie**
 
    * Rappeler le rôle de Jenkins en CI/CD.
+
    * Expliquer la différence :
 
-     * Build manuel
-     * Polling Git (toutes les X minutes)
+     * Build manuel,
+     * Polling Git (toutes les X minutes),
      * Webhook GitHub → Jenkins (réactif, moderne).
+
    * Expliquer pourquoi :
 
-     * On n’a pas besoin de ngrok sur Azure.
-     * On en aurait besoin sur un laptop local.
+     * ngrok n’est pas nécessaire sur une VM Azure exposée avec IP publique,
+     * ngrok devient utile sur une installation locale sans IP publique.
 
-2. **30 minutes de démonstration guidée** (toi à l’écran)
+2. **30 minutes de démonstration guidée**
 
-   * Montre la création du job Jenkins.
-   * Colle le Jenkinsfile, explique chaque bloc :
+   * Montrer la création du job Jenkins.
+
+   * Coller le Jenkinsfile, expliquer chaque bloc :
 
      * `agent any`
      * `environment`
      * `stages`
      * `Checkout` vs `Build`.
-   * Lance un premier build manuel.
-   * Puis montre la configuration du **Build Trigger** et du **Webhook GitHub**.
-   * Fais un push en live sur `README.md` et montre le build qui part.
+
+   * Lancer un premier build manuel.
+
+   * Montrer ensuite la configuration du **Build Trigger** et du **Webhook GitHub**.
+
+   * Faire un push en direct sur `README.md` et montrer le build qui se déclenche.
 
 3. **Travail à réaliser**
 
-   * Vous devez :
+   * Créer un job Jenkins équivalent.
+   * Configurer le webhook GitHub.
+   * Tester avec la modification de `README.md`.
 
-     * Créer votre propre job Jenkins,
-     * Configurer le webhook,
-     * Tester avec la modification de `README.md`.
-   * Pour la remise :
+   Pour la remise, demander :
 
-     * une capture d’écran de la page Webhook GitHub (delivery 200),
-     * une capture d’écran du build Jenkins réussi,
-     * le Jenkinsfile (copié-collé dans un fichier texte).
+   * Une capture d’écran de la page Webhook GitHub (delivery 200),
+   * Une capture d’écran d’un build Jenkins réussi déclenché par webhook,
+   * Le contenu du Jenkinsfile.
 
-
+---
 
 ## 4. Annexe – Quand et comment utiliser ngrok (cas Jenkins local)
 
-
 ### 4.1. Cas d’usage
 
-* Jenkins tourne sur `http://localhost:8080` sur leur machine.
+* Jenkins tourne sur `http://localhost:8080` sur une machine locale.
 * Pas d’IP publique, pas de port ouvert sur le routeur.
 * GitHub ne peut pas envoyer de webhook vers `localhost`.
 
@@ -430,6 +437,5 @@ Sur ta machine de développement :
 
 5. Le reste est identique :
 
-   * Build Trigger dans Jenkins.
+   * Configuration du Build Trigger dans Jenkins.
    * Test avec modification de `README.md`.
-
