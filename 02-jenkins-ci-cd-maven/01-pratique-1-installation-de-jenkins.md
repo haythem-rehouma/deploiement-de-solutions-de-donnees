@@ -415,10 +415,10 @@ SDKMAN! s’occupe aussi de `JAVA_HOME`.
 ## 1. Mettre le système à jour
 
 ```bash
-sudo apt update && sudo apt upgrade -y
+sudo apt update
 ```
 
-(Installe aussi `wget` si besoin 🙂
+(Installe aussi `wget` si besoin
 
 ```bash
 sudo apt install wget curl -y
