@@ -144,6 +144,7 @@ Donc :
 
 
 - Dépôt : https://github.com/haythem-rehouma/hello-python-linux
+- Regardez l'annexe 1 pour les commandes
 
 ```groovy
 pipeline {
@@ -193,7 +194,7 @@ pipeline {
 
 
 
-# 5. Attendus pédagogiques
+# 5. Attendus 
 
 À l’issue de cette pratique, vous devez être capable de :
 
