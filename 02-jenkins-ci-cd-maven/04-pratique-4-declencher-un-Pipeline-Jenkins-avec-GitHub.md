@@ -212,3 +212,54 @@ Si vous avez des questions précises (erreur dans Jenkins, problème de webhook,
 * et l’URL de votre dépôt GitHub.
 
 Bonne pratique et prenez le temps de soigner votre pipeline.
+
+
+# Annexe 1 - commandes linux
+
+```groovy
+root@jenkinsVM:/# history
+    1  apt update
+    2  sudo apt update
+    3  sudo apt install fontconfig openjdk-21-jre
+    4  java -version
+    5  which java
+    6  which python
+    7  sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc   https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+    8  echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc]"   https://pkg.jenkins.io/debian-stable binary/ | sudo tee   /etc/apt/sources.list.d/jenkins.list > /dev/null
+    9  sudo apt update
+   10  sudo apt install jenkins
+   11  sudo systemctl status jenkins
+   12  sudo systemctl enable jenkins
+   13  sudo systemctl start jenkins
+   14  cat /var/lib/jenkins/secrets/initialAdminPassword
+   15  cd /
+   16  pwd
+   17  ls
+   18  which java
+   19  ls /usr/bin/java
+   20  cat /usr/bin/java
+   21  ls -la /usr/bin/java
+   22  javac
+   23  java
+   24  which java
+   25  /usr/bin/java --version
+   26  javac
+   27  readlink -f $(which java)
+   28  which java
+   29  sudo apt update
+   30  sudo apt install -y python3 python3-pip default-jdk
+   31  which python3
+   32  readlink -f $(which java)
+   33  which python3
+   34  ls /usr/lib/jvm/java-21-openjdk-amd64/bin/java
+   35  cd /usr/lib/jvm/java-21-openjdk-amd64/bin/java/bin
+   36  ls /usr/lib/jvm/java-21-openjdk-amd64
+   37  which python3
+   38  ls /usr/lib/jvm/java-21-openjdk-amd64/bin
+   39  which python3
+   40  ls /usr/bin/python3
+   41  ls /usr/bin
+   42  readlink -f $(which java)
+   43  which python3
+   44  history
+```
