@@ -215,6 +215,8 @@ Si vous avez des questions précises (erreur dans Jenkins, problème de webhook,
 Bonne pratique et prenez le temps de soigner votre pipeline.
 
 
+<br/>
+
 # Annexe 1 - commandes linux
 
 ```groovy
@@ -264,3 +266,130 @@ root@jenkinsVM:/# history
    43  which python3
    44  history
 ```
+
+
+
+
+
+
+<br/>
+
+# Annexe 2 - Installer Python proprement sur Ubuntu 24.04 (si ce n’est pas déjà fait)
+
+Sur votre VM Jenkins (Ubuntu 24.04) :
+
+```bash
+sudo apt update
+sudo apt install -y python3 python3-pip
+```
+
+Vérifiez :
+
+```bash
+which python3
+python3 --version
+```
+
+Vous devriez voir :
+
+```text
+/usr/bin/python3
+```
+
+python3 est le binaire ou exécutable, c’est pour ça que dans le Jenkinsfile je mets :
+
+```groovy
+PYTHON_HOME = '/usr/bin'
+sh 'python3 hello.py'
+```
+
+
+<br/>
+
+# Annexe 3 - commandes utiles
+
+
+### Annexe 3.1. Cas n°1 – Ubuntu **ne connaît pas** `javac` (même dans le terminal)
+
+Si, dans ton terminal, tu fais :
+
+```bash
+javac -version
+```
+
+et que tu obtiens `command not found`, ça veut dire que tu n’as **que le JRE** (java pour exécuter) mais pas le **JDK** (avec le compilateur `javac`).
+
+Dans ce cas, installe le JDK complet :
+
+```bash
+sudo apt update
+sudo apt install -y openjdk-21-jdk
+```
+
+Puis vérifie :
+
+```bash
+javac -version
+which javac
+```
+
+Tu devrais voir un résultat du genre :
+
+```text
+javac 21...
+/usr/lib/jvm/java-21-openjdk-amd64/bin/javac
+```
+
+Là tu es bon : `JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64` est correct, et `javac` existe bien.
+
+---
+
+### Annexe 3.2. Cas n°2 – `javac` marche **en terminal**, mais pas dans Jenkins
+
+Dans ce cas, le problème n’est pas Ubuntu, c’est l’**environnement Jenkins** :
+
+* soit `JAVA_HOME` est mal défini dans le Jenkinsfile,
+* soit le `PATH` n’inclut pas `${JAVA_HOME}/bin` au moment où Jenkins exécute le `sh`.
+
+Dans ton Jenkinsfile, avec ce que tu m’as donné :
+
+```groovy
+environment {
+    JAVA_HOME   = '/usr/lib/jvm/java-21-openjdk-amd64'
+    PYTHON_HOME = '/usr/bin'
+    PATH = "${env.PATH}:${JAVA_HOME}/bin:${PYTHON_HOME}"
+}
+```
+
+Et dans le stage Build, tu peux tester :
+
+```groovy
+sh 'echo $JAVA_HOME'
+sh 'which java || echo "java introuvable"'
+sh 'which javac || echo "javac introuvable"'
+sh 'javac -version || echo "Erreur javac"'
+```
+
+Si `which javac` renvoie vide dans Jenkins mais OK dans ton terminal, c’est que Jenkins n’a pas le même PATH / JAVA_HOME.
+
+
+
+### Annexe 3.3. Résumé pour votre TP
+
+3.3.1. **Sur Ubuntu :**
+
+```bash
+sudo apt update
+sudo apt install -y openjdk-21-jdk
+javac -version
+```
+
+3.3.2. **Dans le Jenkinsfile :**
+
+```groovy
+environment {
+    JAVA_HOME   = '/usr/lib/jvm/java-21-openjdk-amd64'
+    PATH = "${env.PATH}:${JAVA_HOME}/bin"
+}
+```
+
