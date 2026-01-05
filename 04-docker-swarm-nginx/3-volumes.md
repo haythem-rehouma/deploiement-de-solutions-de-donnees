@@ -11,6 +11,23 @@
 
 ## 3.1 Problème de la persistance
 
+### Le problème fondamental
+
+Les containers sont conçus pour être **éphémères** (temporaires). Vous pouvez les créer, les détruire, les recréer à volonté. C'est leur force, mais aussi un défi.
+
+**Question :** Si un container MySQL est supprimé et recréé, que deviennent les données de la base ?
+
+**Sans volume :** Les données sont perdues ! Chaque container neuf repart de zéro.
+**Avec volume :** Les données survivent, le nouveau container retrouve les données.
+
+### Pourquoi les données sont-elles perdues ?
+
+Quand Docker lance un container, il ajoute une **couche d'écriture** (writable layer) au-dessus des couches de l'image (read-only).
+
+- Tout ce que le container écrit va dans cette couche
+- Quand le container est supprimé, cette couche est supprimée aussi
+- Donc toutes les données écrites disparaissent
+
 Par défaut, les données écrites dans un container sont perdues quand le container est supprimé.
 
 ```mermaid
@@ -75,6 +92,16 @@ graph TB
 ---
 
 ## 3.3 Volumes Docker
+
+### Pourquoi les volumes sont recommandés ?
+
+| Avantage | Explication |
+|----------|-------------|
+| **Indépendants** | Existent même si aucun container ne les utilise |
+| **Portables** | Faciles à sauvegarder et migrer |
+| **Sécurisés** | Isolés du système de fichiers de l'hôte |
+| **Performants** | Optimisés par Docker selon le système |
+| **Partageables** | Plusieurs containers peuvent utiliser le même volume |
 
 Les volumes sont la méthode recommandée pour persister les données.
 

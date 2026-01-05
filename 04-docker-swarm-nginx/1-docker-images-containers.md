@@ -10,7 +10,24 @@
 
 ## 1.1 Architecture Docker
 
-Docker utilise une architecture client-serveur. Le daemon Docker gère les objets Docker (images, containers, réseaux, volumes).
+### Qu'est-ce que Docker ?
+
+**Docker** est une plateforme qui permet de créer, déployer et exécuter des applications dans des **containers**. Un container est comme une boîte isolée contenant tout ce dont une application a besoin pour fonctionner.
+
+**Analogie :** Pensez à un conteneur de transport maritime. Peu importe ce qu'il contient (meubles, vêtements, électronique), il a une forme standard. On peut le charger sur un bateau, un train ou un camion sans se soucier du contenu. Docker fait pareil avec les applications.
+
+### Pourquoi Docker ?
+
+| Problème sans Docker | Solution avec Docker |
+|---------------------|---------------------|
+| "Ça marche sur ma machine !" | L'environnement est identique partout |
+| Installation complexe de dépendances | Tout est packagé dans l'image |
+| Conflits entre versions de logiciels | Chaque container est isolé |
+| Déploiement long et risqué | Déploiement rapide et reproductible |
+
+### Architecture Client-Serveur
+
+Docker utilise une architecture client-serveur. Le **daemon Docker** (serveur) gère tous les objets Docker, et vous communiquez avec lui via le **CLI** (client).
 
 ```mermaid
 graph TB
@@ -34,9 +51,32 @@ graph TB
 
 ---
 
+### Composants de l'architecture
+
+| Composant | Rôle |
+|-----------|------|
+| **Docker CLI** | L'outil en ligne de commande que vous utilisez (`docker run`, `docker build`, etc.) |
+| **Docker Daemon** | Le service qui tourne en arrière-plan et fait le vrai travail |
+| **REST API** | L'interface entre le CLI et le daemon |
+| **Registry** | Le dépôt d'images (Docker Hub est le registry public) |
+
+---
+
 ## 1.2 Images Docker
 
-Une **image** est un template en lecture seule contenant les instructions pour créer un container. Elle est composée de plusieurs couches (layers).
+### Qu'est-ce qu'une image ?
+
+Une **image** est un template en lecture seule contenant tout ce qu'il faut pour exécuter une application :
+- Un système d'exploitation minimal (souvent Alpine Linux ou Debian slim)
+- Les dépendances (bibliothèques, runtimes)
+- Le code de l'application
+- Les fichiers de configuration
+
+**Important :** Une image est **immuable** (ne peut pas être modifiée après création). Si vous voulez changer quelque chose, vous créez une nouvelle image.
+
+### Structure en couches (Layers)
+
+Les images Docker sont construites en **couches** superposées. Chaque instruction dans un Dockerfile crée une nouvelle couche.
 
 ```mermaid
 graph TB
@@ -50,6 +90,23 @@ graph TB
         L1 --> L2 --> L3 --> L4 --> L5
     end
 ```
+
+**Avantages des couches :**
+- **Réutilisation** : Si deux images utilisent la même base (ex: Ubuntu), cette couche est stockée une seule fois
+- **Cache** : Lors de la construction, Docker réutilise les couches inchangées
+- **Efficacité** : Seules les couches modifiées sont transférées lors d'un push/pull
+
+### Tags d'images
+
+Un **tag** identifie une version spécifique d'une image. Format : `nom:tag`
+
+Exemples :
+- `nginx:latest` - La dernière version (par défaut si pas de tag)
+- `nginx:1.25` - Version spécifique
+- `nginx:alpine` - Variante basée sur Alpine Linux (plus légère)
+- `python:3.11-slim` - Python 3.11 version allégée
+
+**Conseil :** En production, évitez `latest` et utilisez des tags spécifiques pour la reproductibilité.
 
 ### Commandes essentielles pour les images
 
@@ -108,7 +165,20 @@ docker rmi redis:7
 
 ## 1.3 Containers Docker
 
-Un **container** est une instance exécutable d'une image. Il est isolé du système hôte et des autres containers.
+### Image vs Container : la différence fondamentale
+
+| Image | Container |
+|-------|-----------|
+| Template statique | Instance en cours d'exécution |
+| En lecture seule | Peut écrire des données |
+| Stockée sur disque | Vit en mémoire + couche d'écriture |
+| Comme un moule à gâteau | Comme le gâteau cuit |
+
+**Analogie orientée objet :** L'image est la **classe**, le container est l'**instance** de cette classe.
+
+### Qu'est-ce qu'un Container ?
+
+Un **container** est une instance exécutable d'une image. Il est isolé du système hôte et des autres containers. Vous pouvez créer plusieurs containers à partir de la même image.
 
 ```mermaid
 graph LR

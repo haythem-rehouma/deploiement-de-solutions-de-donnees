@@ -11,6 +11,27 @@
 
 ## 4.1 Introduction aux réseaux Docker
 
+### Pourquoi les réseaux Docker ?
+
+Dans une architecture microservices, plusieurs containers doivent communiquer :
+- Le frontend doit parler à l'API
+- L'API doit parler à la base de données
+- etc.
+
+Docker fournit un système de réseau virtuel qui permet :
+- La **communication** entre containers
+- L'**isolation** (certains containers ne peuvent pas se parler)
+- La **découverte** par nom (pas besoin de connaître les IPs)
+
+### Concepts clés
+
+| Concept | Explication |
+|---------|-------------|
+| **Réseau Docker** | Réseau virtuel géré par Docker |
+| **Driver** | Type de réseau (bridge, host, overlay...) |
+| **DNS interne** | Résolution de noms entre containers |
+| **Port mapping** | Exposer un port du container vers l'hôte |
+
 Docker crée une couche d'abstraction réseau qui permet aux containers de communiquer entre eux et avec l'extérieur.
 
 ```mermaid

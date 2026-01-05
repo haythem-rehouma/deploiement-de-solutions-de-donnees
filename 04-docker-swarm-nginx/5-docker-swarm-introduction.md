@@ -11,7 +11,39 @@
 
 ## 5.1 Qu'est-ce que Docker Swarm ?
 
-Docker Swarm est l'outil d'orchestration natif de Docker. Il permet de gérer un cluster de machines Docker comme une seule entité logique.
+### Le problème : gérer plusieurs serveurs
+
+Jusqu'ici, vous avez lancé des containers sur une seule machine. Mais que se passe-t-il quand :
+- Votre application a besoin de plus de ressources qu'une seule machine ?
+- Vous voulez que votre application continue de fonctionner si un serveur tombe en panne ?
+- Vous devez mettre à jour sans interruption de service ?
+
+**La solution : l'orchestration de containers**
+
+### Définition simple
+
+**Docker Swarm** est l'outil d'orchestration natif de Docker. Il transforme plusieurs machines Docker en un seul "super-ordinateur" virtuel.
+
+**Analogie :** Imaginez une équipe de cuisiniers (les serveurs). Sans chef (orchestrateur), chacun fait ce qu'il veut. Avec un chef (Swarm), il y a une coordination : les plats sont répartis, si un cuisinier est absent, les autres compensent.
+
+### Ce que Swarm fait pour vous
+
+| Fonctionnalité | Sans Swarm | Avec Swarm |
+|----------------|------------|------------|
+| Déploiement | Manuel sur chaque serveur | Automatique sur le cluster |
+| Équilibrage de charge | À configurer séparément | Intégré automatiquement |
+| Haute disponibilité | Très complexe à gérer | Automatique |
+| Mise à jour | Arrêt du service | Sans interruption (rolling update) |
+| Scaling | Connexion manuelle à chaque serveur | Une seule commande |
+
+### Docker Swarm vs Kubernetes
+
+| Aspect | Docker Swarm | Kubernetes |
+|--------|--------------|------------|
+| Complexité | Simple, facile à apprendre | Complexe, courbe d'apprentissage raide |
+| Installation | Intégré à Docker | Installation séparée |
+| Fonctionnalités | Essentielles | Très riches |
+| Cas d'usage | Petites/moyennes applications | Grandes applications, multi-cloud |
 
 ```mermaid
 graph TB
@@ -46,7 +78,13 @@ graph TB
 
 ## 5.2 Concepts clés
 
+### Qu'est-ce qu'un Cluster ?
+
+Un **cluster** est un groupe de machines (physiques ou virtuelles) qui travaillent ensemble comme une seule unité. Dans Swarm, ce groupe est composé de **noeuds** (nodes).
+
 ### Noeuds (Nodes)
+
+Un **noeud** est simplement une machine (serveur) sur laquelle Docker est installé et qui participe au cluster Swarm. Il existe deux types de noeuds :
 
 ```mermaid
 graph TB
@@ -69,9 +107,29 @@ graph TB
 | Manager | Gestion, ordonnancement, décisions | 3 ou 5 (impair) |
 | Worker | Exécution des containers | Selon la charge |
 
-### Consensus Raft
+**Manager Node (le cerveau) :**
+- Prend les décisions : où placer les containers, combien en lancer
+- Maintient l'état du cluster (quels services tournent, où)
+- Expose l'API Swarm (reçoit vos commandes `docker service`)
+- Un manager peut aussi exécuter des containers (double casquette)
 
-Les managers utilisent l'algorithme Raft pour maintenir l'état du cluster.
+**Worker Node (les bras) :**
+- Exécute les containers qu'on lui assigne
+- Rapporte son état au manager ("je suis en vie", "le container X tourne")
+- Ne prend aucune décision, obéit aux ordres
+
+### Consensus Raft (pour les curieux)
+
+**Pourquoi plusieurs managers ?**
+Si vous n'avez qu'un manager et qu'il tombe en panne, tout le cluster est perdu. Avec plusieurs managers, le cluster survit.
+
+**Comment ça fonctionne ?**
+Les managers utilisent l'algorithme **Raft** pour se mettre d'accord sur l'état du cluster. C'est comme un vote démocratique.
+
+**Le Quorum :** Pour prendre une décision, il faut la majorité des managers. C'est pourquoi on recommande un nombre **impair** :
+- 3 managers : majorité = 2, tolère 1 panne
+- 5 managers : majorité = 3, tolère 2 pannes
+- 7 managers : majorité = 4, tolère 3 pannes (rarement nécessaire)
 
 ```mermaid
 graph LR
@@ -180,7 +238,21 @@ sequenceDiagram
 
 ## 5.4 Services Swarm
 
-Un **service** est la définition de l'état désiré pour une application dans le cluster.
+### Différence entre Container et Service
+
+| Concept | Container | Service |
+|---------|-----------|---------|
+| Portée | Une seule machine | Tout le cluster |
+| Commande | `docker run` | `docker service create` |
+| Réplication | Manuelle | Automatique |
+| Haute dispo | Non | Oui (redémarrage auto) |
+| Scaling | Manuel | `docker service scale` |
+
+### Qu'est-ce qu'un Service ?
+
+Un **service** est la définition de ce que vous voulez exécuter dans le cluster. Vous décrivez l'**état désiré** (je veux 3 instances de nginx) et Swarm s'assure que cet état est maintenu.
+
+**Analogie :** C'est comme commander au restaurant. Vous dites "je veux 3 pizzas" (état désiré). Le restaurant (Swarm) s'occupe de les préparer et de les remplacer si l'une tombe par terre.
 
 ```mermaid
 graph TB
@@ -247,6 +319,29 @@ docker service rm web
 ---
 
 ## 5.5 Tâches et containers
+
+### La hiérarchie Swarm
+
+Pour comprendre Swarm, il faut connaître ces 3 niveaux :
+
+1. **Service** : Ce que vous voulez (ex: "3 instances nginx")
+2. **Task (Tâche)** : Une unité de travail assignée à un noeud
+3. **Container** : L'exécution réelle de la tâche
+
+```
+Service "web" (replicas: 3)
+    ├── Task web.1 → Container sur Node 1
+    ├── Task web.2 → Container sur Node 2
+    └── Task web.3 → Container sur Node 1
+```
+
+### Pourquoi cette distinction ?
+
+Quand un container plante :
+1. La **Task** est marquée comme échouée
+2. Swarm crée une **nouvelle Task** pour remplacer l'ancienne
+3. Un **nouveau Container** est démarré
+4. Le **Service** reste intact avec ses 3 replicas
 
 ```mermaid
 graph TB
@@ -334,7 +429,16 @@ docker service ps web
 
 ## 5.6 Routing Mesh
 
-Le routing mesh permet d'accéder à un service depuis n'importe quel noeud du cluster.
+### Le problème
+
+Imaginez un cluster de 3 noeuds. Votre service web tourne sur les noeuds 1 et 2, mais pas sur le noeud 3. Un client envoie une requête au noeud 3... que se passe-t-il ?
+
+**Sans Routing Mesh :** Erreur - le noeud 3 ne sait pas quoi faire.
+**Avec Routing Mesh :** Le noeud 3 redirige automatiquement vers un noeud qui a le service.
+
+### Définition
+
+Le **Routing Mesh** est un réseau virtuel qui permet d'accéder à un service depuis **n'importe quel noeud** du cluster, même si le container ne tourne pas sur ce noeud.
 
 ```mermaid
 graph TB
@@ -383,7 +487,22 @@ docker service create \
 
 ## 5.7 Réseaux Overlay
 
-Les réseaux overlay permettent la communication entre containers sur différents noeuds.
+### Le problème des réseaux Docker classiques
+
+Les réseaux Docker "bridge" que vous connaissez ne fonctionnent que sur une seule machine. Deux containers sur deux machines différentes ne peuvent pas se parler via un réseau bridge.
+
+### La solution : les réseaux Overlay
+
+Un **réseau Overlay** crée un réseau virtuel qui s'étend sur plusieurs machines. Les containers sur différents noeuds peuvent communiquer comme s'ils étaient sur la même machine.
+
+**Analogie :** C'est comme un VPN d'entreprise. Les employés à Paris et Lyon peuvent accéder aux mêmes ressources comme s'ils étaient dans le même bureau.
+
+### Avantages des réseaux Overlay
+
+- **Communication multi-noeud** : Containers sur différentes machines peuvent se parler
+- **Isolation** : Chaque réseau overlay est isolé des autres
+- **Chiffrement** : Option pour chiffrer le trafic entre noeuds
+- **DNS intégré** : Les services sont accessibles par leur nom
 
 ```mermaid
 graph TB

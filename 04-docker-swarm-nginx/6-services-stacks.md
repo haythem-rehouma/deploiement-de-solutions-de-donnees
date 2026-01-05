@@ -11,6 +11,17 @@
 
 ## 6.1 Configuration avancée des services
 
+### Rappel : qu'est-ce qu'un service ?
+
+Un **service** dans Swarm est une définition de ce que vous voulez exécuter. Il inclut :
+- L'image à utiliser
+- Le nombre de replicas (copies)
+- Les ressources nécessaires (CPU, mémoire)
+- Les réseaux à utiliser
+- Les contraintes de placement
+
+Swarm s'assure que l'état réel correspond à l'état désiré. Si un container meurt, Swarm en crée un nouveau automatiquement.
+
 ### Options de déploiement
 
 ```mermaid
@@ -29,6 +40,18 @@ graph TB
 ```
 
 ### Mode de déploiement
+
+Swarm propose deux modes de déploiement selon vos besoins :
+
+**Mode Replicated (défaut) :**
+- Vous définissez un nombre fixe de replicas
+- Swarm les distribue sur les noeuds disponibles
+- Idéal pour : applications web, APIs, workers
+
+**Mode Global :**
+- Un container sur CHAQUE noeud du cluster
+- Utile pour les agents de monitoring, collecteurs de logs
+- Idéal pour : prometheus node-exporter, filebeat, agents de sécurité
 
 ```bash
 # Mode replicated (défaut) - nombre fixe de replicas
@@ -62,6 +85,11 @@ graph TB
 
 ### Contraintes de placement
 
+Les **contraintes** permettent de contrôler sur quels noeuds un service peut tourner. Utile pour :
+- Garder les bases de données sur des noeuds avec SSD
+- Isoler certains services sur des noeuds dédiés
+- Respecter des exigences de conformité (données dans un pays spécifique)
+
 ```bash
 # Déployer uniquement sur les workers
 docker service create \
@@ -86,6 +114,13 @@ docker service create \
 ---
 
 ## 6.2 Limites de ressources
+
+### Pourquoi limiter les ressources ?
+
+Sans limites, un container peut consommer toutes les ressources de la machine et affecter les autres applications. Les limites permettent de :
+- **Protéger** le système contre les fuites de mémoire
+- **Garantir** des ressources minimales à chaque service
+- **Planifier** le placement des containers (Swarm sait combien de ressources sont disponibles)
 
 ```mermaid
 graph TB
@@ -162,6 +197,21 @@ docker service create \
 
 ## 6.3 Mises à jour et rollback
 
+### Le défi des mises à jour en production
+
+Comment mettre à jour une application sans interruption de service ? C'est un défi majeur en production.
+
+**Sans orchestrateur :**
+1. Arrêter l'ancienne version → Downtime !
+2. Démarrer la nouvelle version
+3. Si problème → Panique, rollback manuel
+
+**Avec Swarm (Rolling Update) :**
+1. Mettre à jour progressivement container par container
+2. Vérifier que chaque nouveau container fonctionne
+3. Si problème → Rollback automatique
+4. **Zéro downtime !**
+
 ### Stratégie de mise à jour
 
 ```mermaid
@@ -233,7 +283,23 @@ graph LR
 
 ## 6.4 Introduction aux Stacks
 
-Une **stack** est un groupe de services interconnectés définis dans un fichier YAML.
+### Pourquoi les Stacks ?
+
+Jusqu'ici, nous avons créé des services un par un avec `docker service create`. Mais une vraie application comprend souvent :
+- Un frontend
+- Une API backend
+- Une base de données
+- Un cache Redis
+- etc.
+
+Créer et gérer tout cela à la main est fastidieux et source d'erreurs.
+
+### Qu'est-ce qu'une Stack ?
+
+Une **stack** est un groupe de services interconnectés définis dans un fichier YAML (format docker-compose). Elle permet de :
+- **Déclarer** toute l'infrastructure dans un fichier versionnable
+- **Déployer** tous les services en une seule commande
+- **Gérer** l'ensemble comme une unité (supprimer, mettre à jour)
 
 ```mermaid
 graph TB
@@ -439,9 +505,26 @@ secrets:
 
 ## 6.6 Secrets et Configs
 
+### Le problème : où mettre les mots de passe ?
+
+Comment passer des informations sensibles (mots de passe, clés API, certificats) à vos containers ?
+
+**Mauvaises pratiques :**
+- Hardcoder dans le code source (exposé si le code est public)
+- Variables d'environnement dans docker-compose (visibles avec `docker inspect`)
+- Fichiers de config versionnés (exposés dans Git)
+
+**Bonne pratique : les Secrets Swarm**
+
 ### Secrets
 
-Les secrets permettent de stocker des données sensibles de manière sécurisée.
+Les **secrets** sont des données sensibles stockées de manière chiffrée dans le cluster Swarm.
+
+**Fonctionnement :**
+1. Vous créez un secret (mot de passe, certificat, etc.)
+2. Swarm le stocke chiffré dans la base Raft
+3. Seuls les services autorisés peuvent y accéder
+4. Le secret apparaît comme un fichier dans `/run/secrets/` dans le container
 
 ```mermaid
 graph TB
@@ -477,7 +560,13 @@ docker service create \
 
 ### Configs
 
-Les configs permettent de stocker des fichiers de configuration non-sensibles.
+Les **configs** sont similaires aux secrets, mais pour des données non-sensibles (fichiers de configuration). La différence :
+
+| Secrets | Configs |
+|---------|---------|
+| Données sensibles | Fichiers de configuration |
+| Chiffrés au repos | Non chiffrés |
+| `/run/secrets/` | Montés où vous voulez |
 
 ```bash
 # Créer une config

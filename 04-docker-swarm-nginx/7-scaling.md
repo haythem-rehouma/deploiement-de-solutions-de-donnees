@@ -11,7 +11,22 @@
 
 ## 7.1 Scaling des services
 
+### Pourquoi scaler ?
+
+Votre application a du succès et le nombre d'utilisateurs augmente. À un moment, un seul serveur ne suffit plus :
+- **Temps de réponse** qui augmente
+- **Erreurs** sous la charge
+- **Indisponibilité** totale si le serveur tombe
+
+Le **scaling** permet d'ajouter de la capacité pour gérer plus de charge.
+
 ### Scaling horizontal vs vertical
+
+**Scaling vertical (scale up) :** Donner plus de ressources à une machine existante
+- Exemple : Passer de 4GB à 16GB de RAM
+
+**Scaling horizontal (scale out) :** Ajouter plus de machines
+- Exemple : Passer de 1 à 5 serveurs
 
 ```mermaid
 graph TB

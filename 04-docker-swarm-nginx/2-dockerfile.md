@@ -11,7 +11,36 @@
 
 ## 2.1 Introduction au Dockerfile
 
-Un **Dockerfile** est un fichier texte contenant les instructions pour construire une image Docker. Chaque instruction crée une nouvelle couche (layer).
+### Pourquoi créer ses propres images ?
+
+Les images officielles (nginx, python, node) sont des bases, mais votre application a besoin de :
+- Votre code source
+- Vos dépendances spécifiques
+- Votre configuration
+
+Le **Dockerfile** est la recette qui transforme tout cela en une image personnalisée.
+
+### Qu'est-ce qu'un Dockerfile ?
+
+Un **Dockerfile** est un fichier texte (sans extension) contenant les instructions pour construire une image Docker. 
+
+**Analogie :** C'est comme une recette de cuisine. Chaque instruction est une étape (prendre la farine, ajouter les oeufs, mélanger...). À la fin, vous obtenez un plat (l'image).
+
+### Principe des couches (layers)
+
+Chaque instruction dans un Dockerfile crée une **nouvelle couche**. Docker met ces couches en cache pour accélérer les builds suivants.
+
+**Exemple :**
+```
+Layer 1: FROM ubuntu        [200 MB]
+Layer 2: RUN apt-get...     [50 MB]
+Layer 3: COPY app/          [5 MB]
+Layer 4: CMD ["./app"]      [0 MB]
+------------------------
+Total image:                [255 MB]
+```
+
+Si vous modifiez seulement votre code (Layer 3), Docker réutilise les layers 1 et 2 du cache. Le build est donc très rapide !
 
 ```mermaid
 graph LR
@@ -56,7 +85,27 @@ CMD ["node", "server.js"]
 
 ## 2.2 Instructions Dockerfile
 
+### Vue d'ensemble des instructions
+
+| Instruction | Rôle | Exemple |
+|-------------|------|---------|
+| `FROM` | Image de base | `FROM python:3.11` |
+| `WORKDIR` | Répertoire de travail | `WORKDIR /app` |
+| `COPY` | Copier des fichiers locaux | `COPY . .` |
+| `RUN` | Exécuter une commande (build) | `RUN pip install -r requirements.txt` |
+| `ENV` | Variable d'environnement | `ENV NODE_ENV=production` |
+| `EXPOSE` | Documenter un port | `EXPOSE 3000` |
+| `CMD` | Commande par défaut | `CMD ["python", "app.py"]` |
+| `ENTRYPOINT` | Point d'entrée fixe | `ENTRYPOINT ["nginx"]` |
+
 ### FROM - Image de base
+
+La première instruction de tout Dockerfile. Elle définit l'image sur laquelle vous construisez.
+
+**Choix courants :**
+- `alpine` : Ultra-légère (~5MB), basée sur Alpine Linux
+- `slim` : Version allégée de Debian (~100MB)
+- `bookworm/bullseye` : Debian complète (~200MB)
 
 ```dockerfile
 # Utiliser une image officielle
@@ -190,6 +239,13 @@ Créez un Dockerfile pour une application Node.js simple :
 
 ## 2.3 CMD vs ENTRYPOINT
 
+### La question qui revient toujours
+
+CMD et ENTRYPOINT semblent faire la même chose : définir ce qui s'exécute quand le container démarre. Mais il y a une différence importante !
+
+**CMD :** Commande par défaut, facilement remplaçable
+**ENTRYPOINT :** Point d'entrée fixe, les arguments sont ajoutés
+
 ```mermaid
 graph TB
     subgraph "CMD"
@@ -247,6 +303,20 @@ CMD ["--port", "8000"]
 ---
 
 ## 2.4 Optimisation des images
+
+### Pourquoi optimiser ?
+
+Une image non optimisée peut poser plusieurs problèmes :
+- **Taille** : Images de plusieurs GB au lieu de quelques centaines de MB
+- **Sécurité** : Plus de composants = plus de vulnérabilités potentielles
+- **Build lent** : Reconstruction complète à chaque modification
+- **Déploiement lent** : Plus de données à transférer
+
+### Le cache Docker : votre meilleur ami
+
+Docker garde en cache chaque layer. Si une instruction n'a pas changé, Docker réutilise le cache.
+
+**Règle d'or :** Mettez les instructions qui changent rarement EN PREMIER, et celles qui changent souvent EN DERNIER.
 
 ### Ordre des instructions
 
@@ -336,7 +406,26 @@ CMD ["python", "app.py"]
 
 ## 2.5 Multi-stage Build
 
-Le multi-stage build permet de réduire la taille des images en séparant l'environnement de build de l'environnement d'exécution.
+### Le problème
+
+Pour construire une application, vous avez besoin d'outils :
+- Compilateurs (gcc, javac, tsc...)
+- Gestionnaires de packages (npm, pip, maven...)
+- Outils de build (webpack, gradle...)
+
+Ces outils sont nécessaires pour CONSTRUIRE mais PAS pour EXÉCUTER l'application.
+
+**Exemple :** Pour une app Go :
+- Image avec outils de compilation : ~800 MB
+- Application compilée finale : ~10 MB
+
+### La solution : Multi-stage Build
+
+Le **multi-stage build** utilise plusieurs `FROM` dans un seul Dockerfile :
+1. **Stage 1 (builder)** : Image complète avec tous les outils → compile l'application
+2. **Stage 2 (production)** : Image minimale → copie seulement l'exécutable
+
+Le résultat : des images production très légères !
 
 ```mermaid
 graph LR
