@@ -353,15 +353,59 @@ mindmap
 
 ## 2.12 Quiz de validation
 
-1. C'est quoi Minikube ?
+**1. C'est quoi Minikube ?**
 
-2. Quelle commande pour démarrer le cluster ?
+<details>
+<summary>Voir la réponse</summary>
 
-3. Comment vérifier que le cluster fonctionne ?
+Minikube est un outil qui permet de créer un cluster Kubernetes local sur votre ordinateur (dans une VM ou un container). C'est parfait pour apprendre et tester.
 
-4. Quelle commande pour voir les nodes ?
+</details>
 
-5. Comment ouvrir l'interface web ?
+**2. Quelle commande pour démarrer le cluster ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+minikube start
+```
+
+</details>
+
+**3. Comment vérifier que le cluster fonctionne ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+minikube status
+kubectl cluster-info
+```
+
+</details>
+
+**4. Quelle commande pour voir les nodes ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl get nodes
+```
+
+</details>
+
+**5. Comment ouvrir l'interface web ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+minikube dashboard
+```
+
+</details>
 
 ---
 

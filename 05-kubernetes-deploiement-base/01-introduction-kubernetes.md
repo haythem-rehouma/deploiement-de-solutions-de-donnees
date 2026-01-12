@@ -264,17 +264,51 @@ mindmap
 
 ## 1.8 Quiz de validation
 
-Répondez à ces questions :
+**1. En une phrase, c'est quoi Kubernetes ?**
 
-1. En une phrase, c'est quoi Kubernetes ?
+<details>
+<summary>Voir la réponse</summary>
 
-2. Quelle est la différence entre le Control Plane et les Workers ?
+Kubernetes est un système open source qui automatise le déploiement, la mise à l'échelle et la gestion des applications conteneurisées.
 
-3. C'est quoi un Pod ?
+</details>
 
-4. Comment s'appelle l'outil en ligne de commande pour Kubernetes ?
+**2. Quelle est la différence entre le Control Plane et les Workers ?**
 
-5. Avec Kubernetes, on décrit quoi dans les fichiers YAML ?
+<details>
+<summary>Voir la réponse</summary>
+
+- **Control Plane** : C'est le cerveau du cluster, il prend les décisions (où placer les pods, combien en lancer, etc.)
+- **Workers** : Ce sont les machines qui exécutent réellement les containers
+
+</details>
+
+**3. C'est quoi un Pod ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Un Pod est la plus petite unité dans Kubernetes. C'est un groupe d'un ou plusieurs containers qui partagent le même réseau et le même stockage.
+
+</details>
+
+**4. Comment s'appelle l'outil en ligne de commande pour Kubernetes ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+**kubectl** (prononcé "cube-control" ou "cube-c-t-l")
+
+</details>
+
+**5. Avec Kubernetes, on décrit quoi dans les fichiers YAML ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+On décrit l'**état désiré** de notre application : combien de copies, quelle image Docker, quels ports, etc. Kubernetes s'occupe ensuite de faire en sorte que cet état soit maintenu.
+
+</details>
 
 ---
 

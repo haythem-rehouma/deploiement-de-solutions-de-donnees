@@ -481,15 +481,61 @@ mindmap
 
 ## 5.12 Quiz de validation
 
-1. Pourquoi a-t-on besoin de Services ?
+**1. Pourquoi a-t-on besoin de Services ?**
 
-2. Quelle est la différence entre ClusterIP et NodePort ?
+<details>
+<summary>Voir la réponse</summary>
 
-3. Comment un pod peut-il appeler un service par son nom ?
+Parce que les IPs des Pods changent à chaque fois qu'ils sont recréés. Un Service fournit une IP stable et un nom DNS pour accéder aux Pods, plus du load balancing automatique.
 
-4. Quelle commande pour exposer rapidement un Deployment ?
+</details>
 
-5. Comment accéder à un service NodePort avec Minikube ?
+**2. Quelle est la différence entre ClusterIP et NodePort ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+- **ClusterIP** : Accessible uniquement depuis l'intérieur du cluster (pour communication entre apps)
+- **NodePort** : Accessible depuis l'extérieur via un port sur chaque node (30000-32767)
+
+</details>
+
+**3. Comment un pod peut-il appeler un service par son nom ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Kubernetes crée automatiquement une entrée DNS. Un pod peut simplement faire :
+```bash
+curl http://nom-du-service
+# ou
+curl http://nom-du-service.namespace
+```
+
+</details>
+
+**4. Quelle commande pour exposer rapidement un Deployment ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl expose deployment mon-app --type=NodePort --port=80
+```
+
+</details>
+
+**5. Comment accéder à un service NodePort avec Minikube ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+minikube service nom-du-service --url
+```
+Cela affiche l'URL complète pour accéder au service.
+
+</details>
 
 ---
 

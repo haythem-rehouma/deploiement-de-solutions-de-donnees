@@ -445,15 +445,62 @@ mindmap
 
 ## 4.10 Quiz de validation
 
-1. Quelle est la différence entre un Pod et un Deployment ?
+**1. Quelle est la différence entre un Pod et un Deployment ?**
 
-2. Comment créer 5 copies d'une application ?
+<details>
+<summary>Voir la réponse</summary>
 
-3. Que se passe-t-il si un pod géré par un Deployment plante ?
+- **Pod** : Unité de base, éphémère, ne se recrée pas si supprimé
+- **Deployment** : Gère plusieurs Pods, les recrée automatiquement, permet le scaling et les mises à jour progressives
 
-4. Comment mettre à jour l'image d'un Deployment ?
+</details>
 
-5. Comment revenir à la version précédente ?
+**2. Comment créer 5 copies d'une application ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+# Méthode 1 : dans le YAML
+spec:
+  replicas: 5
+
+# Méthode 2 : commande
+kubectl scale deployment mon-app --replicas=5
+```
+
+</details>
+
+**3. Que se passe-t-il si un pod géré par un Deployment plante ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Kubernetes détecte que le nombre de pods est inférieur au nombre désiré (replicas) et crée automatiquement un nouveau pod pour le remplacer.
+
+</details>
+
+**4. Comment mettre à jour l'image d'un Deployment ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl set image deployment/mon-app container-name=nouvelle-image:tag
+```
+
+</details>
+
+**5. Comment revenir à la version précédente ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl rollout undo deployment/mon-app
+```
+
+</details>
 
 ---
 

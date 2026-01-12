@@ -509,15 +509,53 @@ Ces sujets sont couverts dans les modules avancés !
 
 ## Quiz final
 
-1. Combien de pods tournent au total dans ce projet (backend + frontend) ?
+**1. Combien de pods tournent au total dans ce projet (backend + frontend) ?**
 
-2. Pourquoi le backend utilise ClusterIP et pas NodePort ?
+<details>
+<summary>Voir la réponse</summary>
 
-3. Comment le frontend communique-t-il avec le backend ?
+**5 pods** : 3 pods backend + 2 pods frontend
 
-4. Que se passe-t-il si on supprime tous les pods backend ?
+</details>
 
-5. Comment accéder à l'application depuis votre navigateur ?
+**2. Pourquoi le backend utilise ClusterIP et pas NodePort ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Parce que le backend n'a pas besoin d'être accessible depuis l'extérieur. Seul le frontend doit être exposé aux utilisateurs. Le backend est appelé uniquement par le frontend, donc un accès interne (ClusterIP) suffit.
+
+</details>
+
+**3. Comment le frontend communique-t-il avec le backend ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Le frontend (Nginx) utilise le DNS interne de Kubernetes. Il fait un proxy_pass vers `http://backend-service` qui est résolu automatiquement par le DNS du cluster.
+
+</details>
+
+**4. Que se passe-t-il si on supprime tous les pods backend ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Le Deployment backend détecte que le nombre de pods (0) est inférieur au nombre désiré (3) et recrée automatiquement 3 nouveaux pods. L'application sera temporairement indisponible pendant quelques secondes.
+
+</details>
+
+**5. Comment accéder à l'application depuis votre navigateur ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+minikube service frontend-service --url
+```
+Puis ouvrir l'URL affichée dans le navigateur (exemple : http://192.168.49.2:30080)
+
+</details>
 
 ---
 

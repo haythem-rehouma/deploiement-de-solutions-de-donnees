@@ -462,15 +462,59 @@ kubectl delete -f <fichier.yaml>
 
 ## 3.11 Quiz de validation
 
-1. C'est quoi un Pod en une phrase ?
+**1. C'est quoi un Pod en une phrase ?**
 
-2. Quelle commande pour créer un pod nginx rapidement ?
+<details>
+<summary>Voir la réponse</summary>
 
-3. Comment voir les logs d'un pod ?
+Un Pod est la plus petite unité de Kubernetes, contenant un ou plusieurs containers qui partagent le même réseau et stockage.
 
-4. Comment entrer dans un pod avec un shell ?
+</details>
 
-5. Pourquoi les Pods seuls ne sont pas recommandés en production ?
+**2. Quelle commande pour créer un pod nginx rapidement ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl run mon-pod --image=nginx
+```
+
+</details>
+
+**3. Comment voir les logs d'un pod ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl logs <nom-du-pod>
+
+# Ou en temps réel
+kubectl logs -f <nom-du-pod>
+```
+
+</details>
+
+**4. Comment entrer dans un pod avec un shell ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+```bash
+kubectl exec -it <nom-du-pod> -- /bin/sh
+```
+
+</details>
+
+**5. Pourquoi les Pods seuls ne sont pas recommandés en production ?**
+
+<details>
+<summary>Voir la réponse</summary>
+
+Parce que les Pods sont éphémères : si un Pod meurt, il n'est pas recréé automatiquement. Il faut utiliser des **Deployments** qui gèrent les Pods et les recréent automatiquement en cas de problème.
+
+</details>
 
 ---
 
