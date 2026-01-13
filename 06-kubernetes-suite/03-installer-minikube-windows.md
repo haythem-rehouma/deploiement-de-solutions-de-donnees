@@ -365,3 +365,114 @@ I had same problem and I resolved my problem with
 2-) minikube start --no-vtx-check (Without specifying driver)
 Magically it worked maybe it will help you too.
 ```
+
+
+
+# Annexe 1
+
+
+
+## Option A — Reset propre (recommandé)
+
+### 1) Tout fermer (VirtualBox + terminaux)
+
+Ferme VirtualBox (s’il est ouvert) et tes terminaux Minikube.
+
+### 2) Supprimer le profil Minikube cassé
+
+Dans **PowerShell** (pas besoin admin la plupart du temps) :
+
+```powershell
+minikube stop
+minikube delete --all --purge
+```
+
+> `--purge` nettoie aussi les fichiers/profils locaux qui traînent.
+
+### 3) Vérifier/Nettoyer côté VirtualBox (au cas où)
+
+Liste les VMs :
+
+```powershell
+VBoxManage list vms SINON
+& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" --version
+& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" list vms
+```
+
+S’il reste une VM qui ressemble à **"minikube"**, supprime-la via VirtualBox UI **ou** :
+
+```powershell
+VBoxManage unregistervm "minikube" --delete  SINON
+& "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" unregistervm "minikube" --delete
+```
+
+*(si le nom exact diffère, copie-colle le nom retourné par `VBoxManage list vms`)*
+
+### 4) Redémarrer Minikube
+
+Ensuite :
+
+```powershell
+minikube start --driver=virtualbox --no-vtx-check
+```
+
+Puis vérifie :
+
+```powershell
+minikube status
+kubectl get nodes
+```
+
+## Option B — Réparer sans tout supprimer (si tu veux tenter)
+
+Si tu veux essayer de “réparer” le profil sans delete, c’est moins fiable, mais tu peux :
+
+1. Vérifier les profils :
+
+```powershell
+minikube profile list
+```
+
+2. Si le profil `minikube` est listé mais cassé, souvent le plus simple reste :
+
+```powershell
+minikube delete
+minikube start --driver=virtualbox --no-vtx-check
+```
+
+
+## Si ça re-plante encore après delete
+
+Les causes fréquentes sur Windows 11 + VirtualBox :
+
+### 1) Hyper-V / WSL2 / “Virtual Machine Platform” qui interfère
+
+VirtualBox peut être instable si Hyper-V est actif (selon config). Tu peux **tester** l’état :
+
+```powershell
+systeminfo | Select-String "Hyper-V Requirements"
+```
+
+Si tu vois que Hyper-V est actif et que VirtualBox galère, le plus simple est de **switcher de driver** (option C).
+
+### 2) Option C — Utiliser le driver Docker (souvent le plus smooth)
+
+Si Docker Desktop est installé :
+
+```powershell
+minikube delete --all --purge
+minikube start --driver=docker
+minikube status
+```
+
+---
+
+## Pourquoi le `--no-vtx-check` n’aide pas parfois
+
+Parce que ton erreur n’est pas VT-x : c’est **un profil Minikube incomplet/corrompu** (fichier `config.json` manquant).
+
+
+```powershell
+minikube profile list
+VBoxManage list vms
+```
