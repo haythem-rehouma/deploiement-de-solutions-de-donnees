@@ -131,14 +131,3 @@ pipeline {
 
 <br/>
 
-## BARÈME
-
-* Partie 1 : 10 pts
-* Partie 2 : 6 pts
-* Partie 3 : 8 pts
-* Partie 4 : 6 pts
-
-**Total : 30 pts**
-
-```
-```
