@@ -1029,7 +1029,7 @@ kubectl get pods                      # Lister
 kubectl describe pod mon-pod          # Détails
 kubectl logs mon-pod                  # Logs
 kubectl logs -f mon-pod               # Logs en temps réel
-kubectl exec -it mon-pod -- /bin/sh   # Shell interactif
+kubectl exec -it mon-pod -- /bin/sh   # Shell interactif (ici nous supposons que le Pod a un seul conteneur sinon ajouter -c nom-du-conteneur , exemple kubectl exec -it mon-pod -c nom-du-conteneur -- /bin/sh)
 kubectl delete pod mon-pod            # Supprimer
 ```
 
@@ -1453,4 +1453,5 @@ kubectl get namespaces                                         # Lister
 kubectl config use-context <nom>                               # Changer de contexte
 kubectl config get-contexts                                    # Lister les contextes
 ```
+
 
