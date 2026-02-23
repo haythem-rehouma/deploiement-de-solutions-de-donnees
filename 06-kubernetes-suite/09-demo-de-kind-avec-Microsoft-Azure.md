@@ -1,27 +1,21 @@
----
-title: "Chapitre 9 - démonstration-kind-vm-azure commandes de gestion rapide avec kubectl (pratique7)"
-description: "Je vous fournis un exemple exhaustif avec toutes les possibilités (clé SSH, mot de passe, variables avancées) pour gérer efficacement vos configurations Ansible."
-emoji: "📖" 
----
-
 # Chapitre 9 - démonstration de kind avec Microsoft Azure - commandes de gestion rapide avec kubectl (pratique7)
 
 ---
-# 🎯 Objectif 
+# Objectif 
 ---
 
 Dans ce tutoriel, vous apprendrez à :
 
-- 🚀 Créer un cluster Kubernetes avec KIND sur Microsoft Azure
-- 💻 Déployer une infrastructure cloud complète avec un seul nœud
-- 🔧 Configurer et gérer votre cluster de manière efficace
-- 📚 Maîtriser les concepts fondamentaux de Kubernetes
-- ⚡ Optimiser vos déploiements pour un environnement de production
+- Créer un cluster Kubernetes avec KIND sur Microsoft Azure
+- Déployer une infrastructure cloud complète avec un seul nœud
+- Configurer et gérer votre cluster de manière efficace
+- Maîtriser les concepts fondamentaux de Kubernetes
+- Optimiser vos déploiements pour un environnement de production
 
 Ce guide est conçu pour être :
-- ✅ Simple à suivre, même pour les débutants
-- ✅ Applicable en environnement professionnel 
-- ✅ Optimisé pour les bonnes pratiques DevOps
+- Simple à suivre, même pour les débutants
+- Applicable en environnement professionnel 
+- Optimisé pour les bonnes pratiques DevOps
 
 ---
 <a name="table-des-matieres"></a>
@@ -46,10 +40,10 @@ Ce guide est conçu pour être :
    - Vérification de l'état du cluster
 
 5. [Maintenance du cluster](#etape5)
-   - 🔄 Réinitialisation du cluster avec 05-script5_kubernetes_reset.sh (*Script optionnel 🛠️*)
-   - 🔧 Gestion des configurations et des ressources
-   - 🔍 Vérification de l'état du cluster après réinitialisation
-   - 🔧 ⚙️ 🔄 Configuration alternative avec 06-script3_configure_master2.sh (*Script optionnel 🛠️*) 
+   - Réinitialisation du cluster avec 05-script5_kubernetes_reset.sh (*Script optionnel 🛠️*)
+   - Gestion des configurations et des ressources
+   - Vérification de l'état du cluster après réinitialisation
+   - Configuration alternative avec 06-script3_configure_master2.sh (*Script optionnel 🛠️*) 
 
 6. [Nettoyage de l'environnement](#etape7)
    - Suppression des ressources avec script7_cleanup.sh
@@ -837,6 +831,7 @@ az group delete --name k8s-cluster --yes --no-wait
 
 
 #### [🏠 Retour à la table des matières](#table-des-matieres)
+
 
 
 
