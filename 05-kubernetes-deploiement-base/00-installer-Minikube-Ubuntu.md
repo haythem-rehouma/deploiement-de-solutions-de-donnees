@@ -21,6 +21,21 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
+-si vous utilisez ubuntu22.04
+
+```bash
+git clone https://github.com/hrhouma/install-docker.git
+ls
+chmod +x install-docker/
+cd install-docker/
+chmod +x install-docker.sh
+sh install-docker.sh
+docker ps
+apt install docker-compose
+docker --version
+docker-compose --version
+```
+
 Vérification :
 
 ```bash
