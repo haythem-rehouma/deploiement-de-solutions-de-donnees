@@ -260,6 +260,7 @@ Appliquer et tester :
 ```bash
 kubectl apply -f webapp.yaml
 kubectl get pods -l app=webapp
+kubectl get pods -A -l 'app!=webapp'
 kubectl get svc webapp-service
 minikube service webapp-service --url
 ```
