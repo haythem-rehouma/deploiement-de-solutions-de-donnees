@@ -78,13 +78,22 @@ minikube start --driver=docker
 
 ### Troubleshooting
 
-- Erreur 1 : ne pas exécuter avec root 
+- Erreur 1 : ne pas exécuter avec root
 
-- Erreur : Add your user to the 'docker' group
+```bash
+su
+sudo usermod -aG sudo eleve
+```
+
+- Erreur 2 : Add your user to the 'docker' group
   
 <img width="1149" height="545" alt="image" src="https://github.com/user-attachments/assets/42363d1b-4908-444b-92ee-961e3985e0b5" />
 
-Erreur = **droits insuffisants sur le socket Docker** (`/var/run/docker.sock`). Minikube (driver docker) essaie d’appeler l’API Docker, mais ton user n’a pas la permission.
+<br/>
+<br/>
+
+- Erreur = **droits insuffisants sur le socket Docker** (`/var/run/docker.sock`).
+- Minikube (driver docker) essaie d’appeler l’API Docker, mais ton user n’a pas la permission.
 
 Fais ça (dans cet ordre) :
 
