@@ -76,6 +76,64 @@ minikube version
 minikube start --driver=docker
 ```
 
+### Troubleshooting
+
+- Erreur 1 : ne pas exécuter avec root 
+
+- Erreur : Add your user to the 'docker' group
+  
+<img width="1149" height="545" alt="image" src="https://github.com/user-attachments/assets/42363d1b-4908-444b-92ee-961e3985e0b5" />
+
+Erreur = **droits insuffisants sur le socket Docker** (`/var/run/docker.sock`). Minikube (driver docker) essaie d’appeler l’API Docker, mais ton user n’a pas la permission.
+
+Fais ça (dans cet ordre) :
+
+```bash
+# 1) Vérifie que Docker tourne
+sudo systemctl status docker --no-pager
+```
+
+Si c’est “inactive”, démarre-le :
+
+```bash
+sudo systemctl enable --now docker
+```
+
+Ensuite, ajoute ton utilisateur au groupe docker :
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+Recharge les groupes **dans ta session** (option A) :
+
+```bash
+newgrp docker
+```
+
+Ou (option B, souvent plus simple) : **déconnecte-toi / reconnecte-toi** (ou redémarre) puis continue.
+
+Vérifie que ça marche sans sudo :
+
+```bash
+docker ps
+```
+
+Puis relance minikube :
+
+```bash
+minikube start --driver=docker
+```
+
+Si tu es dans une VM VirtualBox (vu `vbox/amd64`) et que `docker ps` échoue encore, envoie-moi la sortie de :
+
+```bash
+id
+ls -l /var/run/docker.sock
+docker version
+```
+
+
 ## 7. Vérifications
 
 ```bash
