@@ -539,14 +539,7 @@ Cela affiche l'URL complète pour accéder au service.
 
 ---
 
-# Annexe 1
-
-
-<details>
-<summary> Types de services </summary>
-
-
-# Types de Services Kubernetes - Schémas
+# Annexe 1 -  Types de Services Kubernetes - Schémas
 
 ---
 
@@ -717,11 +710,12 @@ flowchart TD
 > **Référence** : Accompagne les chapitres [10 - Introduction aux Services](./10-introduction-aux-services.md) et [13 - Types de Services](./13-types-de-services.md).
 
     
-</details>
+
 
 ## Prochaine étape
 
 Vous connaissez maintenant les bases : Pods, Deployments, Services. Dans le prochain cours, on met tout ensemble dans un **projet pratique** !
+
 
 
 
