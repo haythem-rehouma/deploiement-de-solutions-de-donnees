@@ -187,6 +187,265 @@ minikube ip   # Donne l'IP du node
 # Puis accéder à http://<IP>:30080
 ```
 
+
+<details>
+<summary> Démonstration complète </summary>
+
+## 5.4 Service NodePort
+
+### C’est quoi ?
+
+* **Expose un service à l’extérieur du cluster** (réseau de ta VM / machine).
+* Ouvre un **port fixe sur chaque Node** dans la plage **30000–32767**.
+* Le trafic arrive sur `NodeIP:NodePort` puis est redirigé vers le **Service** (port interne), puis vers les **Pods**.
+* **Pratique pour les tests / labs**, moins recommandé en prod (on préfère souvent Ingress/LoadBalancer).
+
+---
+
+### Schéma (mental)
+
+Client → `IP_du_Node:30080` → Service NodePort → Pods (nginx:80)
+
+---
+
+### Pré-requis (check rapide)
+
+```bash
+kubectl cluster-info
+kubectl get nodes -o wide
+```
+
+---
+
+## Étape A — Déploiement (Deployment)
+
+### Exemple
+
+# deployment.yaml
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mon-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mon-app
+  template:
+    metadata:
+      labels:
+        app: mon-app     # IMPORTANT: doit matcher le selector du Service
+    spec:
+      containers:
+      - name: web
+        image: nginx:stable
+        ports:
+        - containerPort: 80
+```
+
+### Appliquer
+
+```bash
+kubectl apply -f deployment.yaml
+kubectl get pods -o wide
+kubectl get pods --show-labels
+```
+
+---
+
+## Étape B — Service NodePort
+
+### Exemple
+
+# service-nodeport.yaml
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mon-service-externe
+spec:
+  type: NodePort
+  selector:
+    app: mon-app
+  ports:
+  - name: http
+    port: 80                # Port du Service (interne cluster)
+    targetPort: 80          # Port du container (Pod)
+    nodePort: 30080         # Port sur le Node (optionnel)
+```
+
+### Appliquer
+
+```bash
+kubectl apply -f service-nodeport.yaml
+kubectl get svc mon-service-externe
+```
+
+---
+
+## Étape C — Vérifications indispensables (la partie que tout le monde oublie)
+
+### 1) Vérifier que le Service “voit” des Pods → Endpoints
+
+```bash
+kubectl get endpoints mon-service-externe -o wide
+kubectl describe svc mon-service-externe
+```
+
+✅ Attendu : IP des pods + `:80`
+❌ Si `Endpoints: <none>` :
+
+* le selector du service ne matche pas les labels des pods
+* ou les pods ne sont pas Ready
+
+### 2) Vérifier le selector du service
+
+```bash
+kubectl get svc mon-service-externe -o yaml | sed -n '1,120p'
+```
+
+Cherche :
+
+```yaml
+selector:
+  app: mon-app
+```
+
+### 3) Vérifier les labels des pods
+
+```bash
+kubectl get pods --show-labels
+```
+
+Tu dois voir `app=mon-app`.
+
+---
+
+## Étape D — Accéder au service
+
+### Option 1 — Minikube (recommandé)
+
+```bash
+minikube service mon-service-externe --url
+```
+
+Puis ouvre l’URL dans un navigateur, ou :
+
+```bash
+curl $(minikube service mon-service-externe --url)
+```
+
+### Option 2 — Manuel (NodeIP + NodePort)
+
+```bash
+minikube ip
+```
+
+Puis :
+
+* `http://<IP_MINIKUBE>:30080`
+
+Test en CLI :
+
+```bash
+curl http://$(minikube ip):30080
+```
+
+---
+
+## Étape E — Démo “interne vs externe” (très pédagogique)
+
+### Test interne (depuis un Pod dans le cluster)
+
+```bash
+kubectl run test --rm -it --image=busybox -- sh
+```
+
+Dans le pod :
+
+```sh
+wget -qO- http://mon-service-externe
+exit
+```
+
+### Test externe (depuis ta VM)
+
+```bash
+curl http://$(minikube ip):30080
+```
+
+---
+
+## Erreurs fréquentes + solutions rapides
+
+### 1) `service not available: no running pod for service ... found`
+
+Causes :
+
+* selector ≠ labels
+* pods pas Running/Ready
+
+Commandes de diagnostic :
+
+```bash
+kubectl get pods -o wide
+kubectl get pods --show-labels
+kubectl get endpoints mon-service-externe -o wide
+kubectl describe svc mon-service-externe
+```
+
+Fix typique (mettre le label au Deployment) :
+
+```bash
+kubectl label deployment mon-app app=mon-app --overwrite
+```
+
+---
+
+### 2) Page ne répond pas / timeout
+
+Vérifie le NodePort réellement attribué :
+
+```bash
+kubectl get svc mon-service-externe -o jsonpath='{.spec.ports[0].nodePort}{"\n"}'
+```
+
+Vérifie que Minikube tourne et que tu es sur le bon contexte :
+
+```bash
+kubectl config current-context
+minikube status
+```
+
+---
+
+## Nettoyage
+
+```bash
+kubectl delete -f service-nodeport.yaml
+kubectl delete -f deployment.yaml
+```
+
+---
+
+### Variante (NodePort auto)
+
+Si tu enlèves `nodePort: 30080`, Kubernetes choisit automatiquement un port.
+Ensuite récupère-le :
+
+```bash
+kubectl get svc mon-service-externe
+```
+
+et accède à `http://$(minikube ip):<NODEPORT>`.
+
+
+    
+</details>
+
 ---
 
 ## 5.5 Exercice pratique 1 (15 minutes)
@@ -757,6 +1016,7 @@ flowchart TD
 ## Prochaine étape
 
 Vous connaissez maintenant les bases : Pods, Deployments, Services. Dans le prochain cours, on met tout ensemble dans un **projet pratique** !
+
 
 
 
