@@ -115,6 +115,37 @@ kubectl get services
 
 # Tester depuis un pod
 kubectl run test --rm -it --image=busybox -- wget -qO- http://mon-service
+
+kubectl run test --rm -it --image=busybox -- sh
+wget -qO- http://mon-service
+
+```
+
+#### Démo 2
+
+```yaml
+kubectl create deployment web --image=nginx --replicas=2
+kubectl get pods -o wide
+kubectl expose deployment web --name=web-svc --port=80 --target-port=80
+kubectl get svc 
+kubectl get svc web-svc
+
+Tu verras un truc comme :
+
+- TYPE : ClusterIP
+- CLUSTER-IP = 10.x.x.x
+- PORTS(S) = 80/TCP 
+
+
+kubectl get endpoints web-svc
+kubectl describe svc web-svc
+
+kubectl run test --rm -it --image=busybox -- sh
+wget -qO- http://web-svc
+exit
+
+kubectl delete svc web-svc
+kubectl delete deployment web
 ```
 
 ---
@@ -726,6 +757,7 @@ flowchart TD
 ## Prochaine étape
 
 Vous connaissez maintenant les bases : Pods, Deployments, Services. Dans le prochain cours, on met tout ensemble dans un **projet pratique** !
+
 
 
 
