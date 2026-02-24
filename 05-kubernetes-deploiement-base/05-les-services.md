@@ -537,21 +537,15 @@ Cela affiche l'URL complète pour accéder au service.
 
 </details>
 
----
+
+
+<br/>
+<br/>
+
 
 # Annexe 1 -  Types de Services Kubernetes - Schémas
 
 
-
-
----
-title: "Schémas - Types de Services Kubernetes"
-description: "Diagrammes Mermaid clairs pour chaque type de Service Kubernetes."
----
-
-# Types de Services Kubernetes - Schémas
-
----
 
 ## 1. ClusterIP (type par défaut)
 
@@ -732,6 +726,7 @@ flowchart TD
 ## Prochaine étape
 
 Vous connaissez maintenant les bases : Pods, Deployments, Services. Dans le prochain cours, on met tout ensemble dans un **projet pratique** !
+
 
 
 
