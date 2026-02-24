@@ -543,12 +543,8 @@ Cela affiche l'URL complète pour accéder au service.
 
 
 <details>
-<summary> types de services </summary>
+<summary> Types de services </summary>
 
----
-title: "Schémas - Types de Services Kubernetes"
-description: "Diagrammes Mermaid clairs pour chaque type de Service Kubernetes."
----
 
 # Types de Services Kubernetes - Schémas
 
@@ -726,6 +722,7 @@ flowchart TD
 ## Prochaine étape
 
 Vous connaissez maintenant les bases : Pods, Deployments, Services. Dans le prochain cours, on met tout ensemble dans un **projet pratique** !
+
 
 
 
