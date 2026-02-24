@@ -541,6 +541,16 @@ Cela affiche l'URL complète pour accéder au service.
 
 # Annexe 1 -  Types de Services Kubernetes - Schémas
 
+
+
+
+---
+title: "Schémas - Types de Services Kubernetes"
+description: "Diagrammes Mermaid clairs pour chaque type de Service Kubernetes."
+---
+
+# Types de Services Kubernetes - Schémas
+
 ---
 
 ## 1. ClusterIP (type par défaut)
@@ -549,7 +559,7 @@ Cela affiche l'URL complète pour accéder au service.
 
 ```mermaid
 flowchart LR
-    A["Pod Frontend"] -->|"http://backend-svc:80"| S["ClusterIP Service\nbackend-svc\nIP: 10.96.0.1"]
+    A["Pod Frontend"] -->|"http://backend-svc:80"| S["ClusterIP Service<br/>backend-svc<br/>IP: 10.96.0.1"]
     S --> B1["Pod Backend 1"]
     S --> B2["Pod Backend 2"]
     S --> B3["Pod Backend 3"]
@@ -571,10 +581,10 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    U["Client externe"] -->|"http://NodeIP:30008"| NP["Port du Node\n30008"]
-    NP --> S["NodePort Service\napp-svc\nport: 80"]
-    S --> P1["Pod App 1\nport 8080"]
-    S --> P2["Pod App 2\nport 8080"]
+    U["Client externe"] -->|"http://NodeIP:30008"| NP["Port du Node<br/>30008"]
+    NP --> S["NodePort Service<br/>app-svc<br/>port: 80"]
+    S --> P1["Pod App 1<br/>port 8080"]
+    S --> P2["Pod App 2<br/>port 8080"]
 
     style NP fill:#e17055,stroke:#fff,color:#fff
     style S fill:#f5a623,stroke:#fff,color:#000
@@ -584,9 +594,9 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    C["Client"] -->|"① nodePort\n30008"| N["Node"]
-    N -->|"② port\n80"| S["Service"]
-    S -->|"③ targetPort\n8080"| P["Pod\nApp"]
+    C["Client"] -->|"① nodePort<br/>30008"| N["Node"]
+    N -->|"② port<br/>80"| S["Service"]
+    S -->|"③ targetPort<br/>8080"| P["Pod<br/>App"]
 
     style N fill:#e17055,stroke:#fff,color:#fff
     style S fill:#f5a623,stroke:#fff,color:#000
@@ -605,7 +615,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    U["Client externe"] -->|"http://34.120.50.10"| LB["Cloud Load Balancer\nIP publique"]
+    U["Client externe"] -->|"http://34.120.50.10"| LB["Cloud Load Balancer<br/>IP publique"]
     LB --> N1["Node 1"]
     LB --> N2["Node 2"]
     N1 --> P1["Pod 1"]
@@ -629,7 +639,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    P["Pod interne"] -->|"http://mail-svc"| S["ExternalName Service\nmail-svc"]
+    P["Pod interne"] -->|"http://mail-svc"| S["ExternalName Service<br/>mail-svc"]
     S -->|"CNAME"| E["smtp.gmail.com"]
 
     style S fill:#6c5ce7,stroke:#fff,color:#fff
@@ -648,10 +658,10 @@ flowchart LR
 
 ```mermaid
 flowchart BT
-    CIP["ClusterIP\nIP interne + DNS + Load Balancing"]
-    NP["NodePort\n= ClusterIP + port sur chaque Node"]
-    LB["LoadBalancer\n= NodePort + LB cloud + IP publique"]
-    EN["ExternalName\nAlias DNS uniquement"]
+    CIP["ClusterIP<br/>IP interne + DNS + Load Balancing"]
+    NP["NodePort<br/>= ClusterIP + port sur chaque Node"]
+    LB["LoadBalancer<br/>= NodePort + LB cloud + IP publique"]
+    EN["ExternalName<br/>Alias DNS uniquement"]
 
     CIP -->|"inclus dans"| NP
     NP -->|"inclus dans"| LB
@@ -669,10 +679,10 @@ flowchart BT
 
 ```mermaid
 flowchart TD
-    Q1{"Accès externe\nnécessaire ?"}
-    Q2{"Cloud provider\ndisponible ?"}
+    Q1{"Accès externe<br/>nécessaire ?"}
+    Q2{"Cloud provider<br/>disponible ?"}
     Q3{"Production ?"}
-    Q4{"Pointer vers un\nDNS externe ?"}
+    Q4{"Pointer vers un<br/>DNS externe ?"}
 
     R1["ClusterIP"]
     R2["NodePort"]
@@ -683,9 +693,9 @@ flowchart TD
     Q4 -->|Non| R1
     Q4 -->|Oui| R4
     Q1 -->|Oui| Q2
-    Q2 -->|"Non\n(on-premise)"| R2
+    Q2 -->|"Non<br/>(on-premise)"| R2
     Q2 -->|Oui| Q3
-    Q3 -->|"Non\n(dev/test)"| R2
+    Q3 -->|"Non<br/>(dev/test)"| R2
     Q3 -->|Oui| R3
 
     style R1 fill:#00b894,stroke:#fff,color:#fff
@@ -709,12 +719,20 @@ flowchart TD
 
 > **Référence** : Accompagne les chapitres [10 - Introduction aux Services](./10-introduction-aux-services.md) et [13 - Types de Services](./13-types-de-services.md).
 
+
+
+
+
+
+
+
     
 
 
 ## Prochaine étape
 
 Vous connaissez maintenant les bases : Pods, Deployments, Services. Dans le prochain cours, on met tout ensemble dans un **projet pratique** !
+
 
 
 
