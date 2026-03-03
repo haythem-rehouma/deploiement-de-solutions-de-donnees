@@ -796,7 +796,7 @@ kubectl get endpoints mysql-service wordpress-service -o wide
 ### Autres commandes - partie 2
 
 <details>
-  <summary> AAutres commandes - partie 2 </summary>
+  <summary> Autres commandes - partie 2 </summary>
 
 ```bash
 kubectl describe pod <wordpress-pod> | sed -n '/Events:/,$p'
@@ -827,8 +827,117 @@ kubectl describe pod wordpress-5d45f7c646-lv6m9 | sed -n '/Events:/,$p'
   <summary> Fichier final </summary>
 
 ```bash
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+type: Opaque
+data:
+  # username = wordpress (base64)
+  username: d29yZHByZXNz
+  # password = mypassword (base64)
+  password: bXlwYXNzd29yZA==
 
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        ports:
+        - containerPort: 3306
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:latest
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-service
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-service
+spec:
+  type: NodePort
+  selector:
+    app: wordpress
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30088
 
 ```
 
