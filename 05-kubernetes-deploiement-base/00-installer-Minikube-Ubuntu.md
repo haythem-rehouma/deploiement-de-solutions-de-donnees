@@ -418,6 +418,181 @@ kubectl delete -f wordpress.yaml
 
 ---
 
+
+### Exercice: Trouvez les erreurs dans l'exercice ci-haut. Pourquoi la page de wordpress ne s'affiche pas ?
+<details>
+<summary> Résolution de problèmes</summary>
+
+- On va **troubleshooter sans corriger**. 
+- Objectif: **identifier la cause** de `ContainerCreating` avec une démarche propre, et utiliser `grep` pour aller vite.
+
+
+## 0) Lecture rapide : `ContainerCreating` veut dire quoi ?
+
+Ça veut dire que **le conteneur n’a même pas démarré**. Donc **ce n’est pas encore** un problème “WordPress ne se connecte pas à MySQL” (ça, ce serait plutôt `CrashLoopBackOff` ou `Running` avec logs d’erreur).
+
+Les causes typiques de `ContainerCreating` :
+
+* image en cours de pull / erreur pull
+* problème réseau/registry
+* problème CNI (réseau pods)
+* problème de montage volume (PVC, hostPath, permissions)
+* problème secret/configmap manquant (mais souvent ça devient `CreateContainerConfigError`, pas toujours)
+* nœud pas prêt / kubelet / runtime (containerd) en souci
+
+---
+
+## 1) Voir *où* ça bloque : `describe` + Events (c’est LA base)
+
+### a) Pour MySQL
+
+```bash
+kubectl describe pod mysql-847b5f5fb-2ptbc | sed -n '/Events:/,$p'
+```
+
+### b) Pour WordPress
+
+```bash
+kubectl describe pod wordpress-55497dccb5-brxk4 | sed -n '/Events:/,$p'
+kubectl describe pod wordpress-55497dccb5-cnp7q | sed -n '/Events:/,$p'
+```
+
+### Avec `grep` (filtrer les lignes utiles)
+
+```bash
+kubectl describe pod mysql-847b5f5fb-2ptbc | egrep -i "Events:|Warning|Failed|Err|Image|Pull|Back-off|mount|secret|config|cni|network|timeout"
+```
+
+👉 **Ce que tu cherches dans Events** (mots clés):
+
+* `Failed to pull image`, `ImagePullBackOff`, `ErrImagePull`
+* `failed to create pod sandbox` (CNI)
+* `MountVolume.SetUp failed`
+* `FailedMount`
+* `secret "xxx" not found`
+* `context deadline exceeded`
+* `node not ready`
+
+---
+
+## 2) Regarder les événements du namespace (vue globale)
+
+Souvent plus clair que pod par pod.
+
+```bash
+kubectl get events --sort-by=.lastTimestamp
+```
+
+Avec filtre `grep` :
+
+```bash
+kubectl get events --sort-by=.lastTimestamp | egrep -i "warning|failed|pull|image|mount|cni|network|sandbox|secret|config"
+```
+
+---
+
+## 3) Vérifier si c’est un problème d’image (pull)
+
+### a) Voir l’état exact côté conteneur
+
+```bash
+kubectl get pod mysql-847b5f5fb-2ptbc -o wide
+kubectl get pod wordpress-55497dccb5-brxk4 -o wide
+```
+
+### b) Si tu vois dans Events “Pulling image …” puis rien → attendre/registry lent.
+
+### c) Si tu vois “ErrImagePull / ImagePullBackOff” → le détail est dans `describe`.
+
+---
+
+## 4) Vérifier le nœud (souvent la source de ContainerCreating)
+
+Comme tu es sur une VM (`eleve@k8s-vm`), ça peut venir du node.
+
+```bash
+kubectl get nodes -o wide
+kubectl describe node $(kubectl get nodes -o name | head -n1) | egrep -i "Ready|NotReady|NetworkUnavailable|MemoryPressure|DiskPressure|PIDPressure"
+```
+
+Si `NotReady` ou `NetworkUnavailable` → c’est normal que tout reste en `ContainerCreating`.
+
+---
+
+## 5) Vérifier rapidement Secrets/Services existent (pas pour corriger, juste confirmer)
+
+```bash
+kubectl get secret
+kubectl get svc
+kubectl get deploy
+```
+
+Avec grep :
+
+```bash
+kubectl get secret | grep -i mysql
+kubectl get svc | grep -i mysql
+kubectl get deploy | egrep -i "mysql|wordpress"
+```
+
+---
+
+## 6) Si Events parlent de volumes/mount → check PVC/PV (même si tu n’en as pas, ça peut révéler un souci)
+
+```bash
+kubectl get pvc
+kubectl get pv
+```
+
+---
+
+## 7) Si Events parlent de CNI / “pod sandbox” (réseau)
+
+Exemples de messages typiques :
+
+* `Failed to create pod sandbox`
+* `cni plugin not initialized`
+* `failed to set up sandbox`
+
+Commandes:
+
+```bash
+kubectl -n kube-system get pods -o wide
+kubectl -n kube-system get pods | egrep -i "cni|calico|flannel|weave|cilium"
+```
+
+Puis (si tu identifies le plugin):
+
+```bash
+kubectl -n kube-system logs <pod-cni> | tail -n 50
+```
+
+---
+
+## 8) Pattern de diagnostic (méthode “pro”)
+
+1. **Regarde Events** (`describe pod …`)
+2. **Confirme au niveau namespace** (`kubectl get events`)
+3. **Valide le node** (`kubectl get nodes`, `describe node`)
+4. **Si c’est image** → focus `pull`
+5. **Si c’est mount** → focus `pvc/pv`
+6. **Si c’est sandbox/CNI** → focus `kube-system`
+
+---
+
+## Donne-moi juste 6 lignes (et je te dis quel chemin suivre)
+
+Copie-colle uniquement la sortie de :
+
+```bash
+kubectl describe pod mysql-847b5f5fb-2ptbc | sed -n '/Events:/,$p' | tail -n 20
+```
+
+
+  
+</details>
+
+
 ## 14. Commandes d'inspection et débogage
 
 ```bash
