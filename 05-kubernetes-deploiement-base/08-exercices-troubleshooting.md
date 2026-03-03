@@ -399,8 +399,6 @@ spec:
 
 ## Démarche (checklist commandes)
 
-Tu peux donner cette liste “autorisée” dans l’énoncé :
-
 ```bash
 kubectl get all -n <ns>
 kubectl get pods -n <ns> -o wide
