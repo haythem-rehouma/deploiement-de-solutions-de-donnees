@@ -427,7 +427,7 @@ kubectl delete -f wordpress.yaml
 - Objectif: **identifier la cause** de `ContainerCreating` avec une démarche propre, et utiliser `grep` pour aller vite.
 
 
-## 0) Lecture rapide : `ContainerCreating` veut dire quoi ?
+## 13.0) Lecture rapide : `ContainerCreating` veut dire quoi ?
 
 Ça veut dire que **le conteneur n’a même pas démarré**. Donc **ce n’est pas encore** un problème “WordPress ne se connecte pas à MySQL” (ça, ce serait plutôt `CrashLoopBackOff` ou `Running` avec logs d’erreur).
 
@@ -442,7 +442,7 @@ Les causes typiques de `ContainerCreating` :
 
 ---
 
-## 1) Voir *où* ça bloque : `describe` + Events (c’est LA base)
+## 13.1) Voir *où* ça bloque : `describe` + Events (c’est LA base)
 
 ### a) Pour MySQL
 
@@ -475,7 +475,7 @@ kubectl describe pod mysql-847b5f5fb-2ptbc | egrep -i "Events:|Warning|Failed|Er
 
 ---
 
-## 2) Regarder les événements du namespace (vue globale)
+## 13.2) Regarder les événements du namespace (vue globale)
 
 Souvent plus clair que pod par pod.
 
@@ -491,7 +491,7 @@ kubectl get events --sort-by=.lastTimestamp | egrep -i "warning|failed|pull|imag
 
 ---
 
-## 3) Vérifier si c’est un problème d’image (pull)
+## 13.3) Vérifier si c’est un problème d’image (pull)
 
 ### a) Voir l’état exact côté conteneur
 
@@ -506,7 +506,7 @@ kubectl get pod wordpress-55497dccb5-brxk4 -o wide
 
 ---
 
-## 4) Vérifier le nœud (souvent la source de ContainerCreating)
+## 13.4) Vérifier le nœud (souvent la source de ContainerCreating)
 
 Comme tu es sur une VM (`eleve@k8s-vm`), ça peut venir du node.
 
@@ -519,7 +519,7 @@ Si `NotReady` ou `NetworkUnavailable` → c’est normal que tout reste en `Cont
 
 ---
 
-## 5) Vérifier rapidement Secrets/Services existent (pas pour corriger, juste confirmer)
+## 13.5) Vérifier rapidement Secrets/Services existent (pas pour corriger, juste confirmer)
 
 ```bash
 kubectl get secret
@@ -537,7 +537,7 @@ kubectl get deploy | egrep -i "mysql|wordpress"
 
 ---
 
-## 6) Si Events parlent de volumes/mount → check PVC/PV (même si tu n’en as pas, ça peut révéler un souci)
+## 13.6) Si Events parlent de volumes/mount → check PVC/PV (même si tu n’en as pas, ça peut révéler un souci)
 
 ```bash
 kubectl get pvc
@@ -546,7 +546,7 @@ kubectl get pv
 
 ---
 
-## 7) Si Events parlent de CNI / “pod sandbox” (réseau)
+## 13.7) Si Events parlent de CNI / “pod sandbox” (réseau)
 
 Exemples de messages typiques :
 
@@ -569,7 +569,7 @@ kubectl -n kube-system logs <pod-cni> | tail -n 50
 
 ---
 
-## 8) Pattern de diagnostic (méthode “pro”)
+## 13.8) Pattern de diagnostic (méthode “pro”)
 
 1. **Regarde Events** (`describe pod …`)
 2. **Confirme au niveau namespace** (`kubectl get events`)
@@ -580,13 +580,158 @@ kubectl -n kube-system logs <pod-cni> | tail -n 50
 
 ---
 
-## Donne-moi juste 6 lignes (et je te dis quel chemin suivre)
 
-Copie-colle uniquement la sortie de :
+
 
 ```bash
 kubectl describe pod mysql-847b5f5fb-2ptbc | sed -n '/Events:/,$p' | tail -n 20
 ```
+
+#### Version finale 
+
+```bash
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+type: Opaque
+data:
+  # username = wordpress (base64)
+  username: d29yZHByZXNz
+  # password = mypassword (base64)
+  password: bXlwYXNzd29yZA==
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:8.0
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        - name: MYSQL_DATABASE
+          value: wordpress
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        ports:
+        - containerPort: 3306
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+spec:
+  selector:
+    app: mysql
+  ports:
+  - port: 3306
+    targetPort: 3306
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:latest
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: mysql-service
+        - name: WORDPRESS_DB_NAME
+          value: wordpress
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: username
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: password
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-service
+spec:
+  type: NodePort
+  selector:
+    app: wordpress
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30088
+```
+
+
+
+
+La ligne **problématique manquante** dans ta version initiale (côté WordPress) était **le user DB** :
+
+```yaml
+- name: WORDPRESS_DB_USER
+  valueFrom:
+    secretKeyRef:
+      name: mysql-secret
+      key: username
+```
+
+Et, pour que cette ligne marche, il fallait aussi **la clé `username` dans le Secret** (elle n’existait pas avant) :
+
+```yaml
+username: d29yZHByZXNz
+```
+
+Sans `WORDPRESS_DB_USER` (et donc sans `username` dans le Secret), WordPress n’a pas le compte à utiliser pour se connecter à MySQL.
+
+
+
+1. Constater que les Pods sont bloqués, puis lire la cause exacte : `kubectl describe pod <wordpress-pod> | sed -n '/Events:/,$p'` (chercher *Failed*, *Warning*).
+2. Une fois les Pods *Running*, tester l’app : ouvrir le NodePort, puis si erreur, lire les logs : `kubectl logs deploy/wordpress | tail -n 80`.
+3. Dans les logs, repérer l’erreur DB (access denied / user unknown) et extraire les mots clés : `kubectl logs deploy/wordpress | egrep -i "access denied|mysql|user|password|database|host"`.
+4. Vérifier la config réellement injectée : `kubectl describe deploy wordpress | egrep -i "WORDPRESS_DB_|env:"` et vérifier le Secret : `kubectl describe secret mysql-secret`.
+5. Comparer ce que WordPress attend (HOST/NAME/USER/PASSWORD) avec ce que le YAML fournit : tu vois que **DB_USER manque**, donc tu ajoutes `username` au Secret + `WORDPRESS_DB_USER` (et côté MySQL `MYSQL_USER/MYSQL_PASSWORD` si tu crées l’utilisateur).
+
 
 
   
