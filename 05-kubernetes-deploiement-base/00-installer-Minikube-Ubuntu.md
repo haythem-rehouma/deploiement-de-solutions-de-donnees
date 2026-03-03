@@ -418,8 +418,9 @@ kubectl delete -f wordpress.yaml
 
 ---
 
+<br/>
 
-### Exercice: Trouvez les erreurs dans l'exercice ci-haut. Pourquoi la page de wordpress ne s'affiche pas ?
+# P0 - Exercice: Trouvez les erreurs dans l'exercice ci-haut. Pourquoi la page de wordpress ne s'affiche pas ?
 <details>
 <summary> Résolution de problèmes</summary>
 
@@ -587,7 +588,7 @@ kubectl -n kube-system logs <pod-cni> | tail -n 50
 kubectl describe pod mysql-847b5f5fb-2ptbc | sed -n '/Events:/,$p' | tail -n 20
 ```
 
-#### Version finale 
+# Version finale 
 
 ```bash
 apiVersion: v1
