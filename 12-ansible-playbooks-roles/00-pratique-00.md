@@ -6,7 +6,7 @@
 # 🌍 Étape 1 : Installer Docker et Docker Compose
 
 <details>
-<summary> Étape 1 : Installer Docker et Docker Compose </summary>
+<summary> Étape 1 : Installer Docker, Docker Compose et ansible</summary>
   
 
 Si Docker et Docker Compose ne sont pas déjà installés, voici les commandes pour les installer.
@@ -24,6 +24,16 @@ chmod +x install-docker.sh
 docker version
 docker compose version
 apt-install docker-compose
+```
+
+
+### Installation ansible
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt-add-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible -y
+ansible --version
 ```
 
 </details>
