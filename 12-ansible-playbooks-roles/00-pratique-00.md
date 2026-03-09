@@ -3,12 +3,15 @@
 
 
 
-## 🌍 Étape 1 : Installer Docker et Docker Compose
+# 🌍 Étape 1 : Installer Docker et Docker Compose
 
+<details>
+<summary> Étape 1 : Installer Docker et Docker Compose </summary>
+  
 
 Si Docker et Docker Compose ne sont pas déjà installés, voici les commandes pour les installer.
 
-# Méthode 1 - Installation de Docker
+### Installation de Docker
 
 ```bash
 su
@@ -23,9 +26,13 @@ docker compose version
 apt-install docker-compose
 ```
 
+</details>
 
-### 2. Démarrer les conteneurs
+# 🌍 Étape 2 : Démarrer les conteneurs et Configurer l’accès SSH pour Ansible
 
+<details>
+<summary>  Étape 2 : Démarrer les conteneurs et Configurer l’accès SSH pour Ansible </summary>
+  
 2.1. Nous allons créer deux conteneurs Docker Ubuntu et les configurer pour accepter les connexions SSH. Ansible se connectera à ces conteneurs pour les gérer.
 
 ```bash
@@ -80,7 +87,7 @@ docker-compose up -d
 
 Cela démarre deux conteneurs (`node1` et `node2`) et installe SSH sur chacun d’eux.
 
-### 3. Configurer l’accès SSH pour Ansible
+## Configurer l’accès SSH pour Ansible
 
 Pour que Ansible puisse se connecter aux conteneurs, nous devons configurer l’accès SSH avec des clés.
 
@@ -104,9 +111,12 @@ Pour que Ansible puisse se connecter aux conteneurs, nous devons configurer l’
    ssh root@$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' node2)
    ```
 
----
+</details>
 
-## 📜 Étape 3 : Créer l'inventaire Ansible
+# 🌍 Étape 3 : Créer l'inventaire Ansible
+
+<details>
+<summary> Étape 3 : Créer l'inventaire Ansible </summary>
 
 Créez un fichier `inventory.ini` dans votre dossier de travail avec les adresses IP des conteneurs.
 
@@ -120,9 +130,13 @@ node2 ansible_host=172.20.0.3 ansible_user=root
 
 > Remplacez les adresses IP par celles de `node1` et `node2` obtenues via `docker inspect`.
 
----
+</details>
 
-## 🎯 Étape 4 : Écrire le playbook Ansible
+
+# 🌍 Étape 4 : Écrire le playbook Ansible
+
+<details>
+<summary>Étape 4 : Écrire le playbook Ansible </summary>
 
 Nous allons écrire un playbook qui installe Apache et le démarre sur les conteneurs.
 
@@ -155,9 +169,12 @@ Créez un fichier `playbook.yml` avec le contenu suivant :
         dest: /var/www/html/index.html
 ```
 
----
+</details>
 
-## 🚀 Étape 5 : Exécuter le playbook
+# 🌍 Étape 5 :  Exécuter le playbook
+
+<details>
+<summary>Étape 5 :  Exécuter le playbook </summary>
 
 Lancez le playbook pour configurer Apache dans les conteneurs :
 
@@ -165,7 +182,7 @@ Lancez le playbook pour configurer Apache dans les conteneurs :
 ansible-playbook -i inventory.ini playbook.yml
 ```
 
----
+
 
 ## 🔎 Vérifier le déploiement
 
@@ -179,9 +196,10 @@ docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nod
 Accédez à `http://<IP_du_conteneur>` dans votre navigateur. Vous devriez voir le message “Bienvenue sur votre serveur web dans un conteneur Docker !”
 
 
+</details>
 
 
----------
+<br/>
 
 # Annexe 1 - Créer un Fichier d'inventaire `inventory.ini`
 
