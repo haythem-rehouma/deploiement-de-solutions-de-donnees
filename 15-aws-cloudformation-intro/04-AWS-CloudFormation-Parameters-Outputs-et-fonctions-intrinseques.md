@@ -80,7 +80,7 @@ Un template dynamique permet :
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Les **Parameters**, c'est comme un **formulaire à remplir** avant de commander un meuble en ligne : vous choisissez la couleur, la taille, le matériau. Le template reste le même, mais le résultat change selon vos réponses. Les **Outputs**, c'est le **reçu de livraison** : une fois le meuble livré, on vous donne le numéro de suivi, la date de livraison et la référence — les infos utiles à garder. Les **fonctions intrinsèques**, ce sont les outils de l'usine qui assemblent le meuble selon vos choix.
@@ -215,7 +215,7 @@ flowchart TD
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Un **paramètre**, c'est une question posée à celui qui déploie : « quel nom veux-tu pour le bucket ? quelle taille de machine ? »
@@ -405,7 +405,7 @@ flowchart LR
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Pensez à `Ref` comme un **raccourci clavier** : il vous donne directement la valeur principale associée à quelque chose (le nom du paramètre ou l'identifiant de la ressource). `GetAtt`, c'est comme faire un **clic droit → Propriétés** : vous accédez à un détail précis, comme l'adresse IP publique ou l'ARN. Par exemple, `!Ref MonServeur` vous donne l'ID de l'instance, mais `!GetAtt MonServeur.PublicIp` vous donne son adresse IP — un détail que `Ref` ne connaît pas.
@@ -636,7 +636,7 @@ AWS documente explicitement ces usages combinés. ([docs.aws.amazon.com](https:/
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - `Fn::Base64` est un **emballage obligatoire** pour envoyer des scripts à une instance EC2 via `UserData` — sans cet emballage, AWS refuse le colis

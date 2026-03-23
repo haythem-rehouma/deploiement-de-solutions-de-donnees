@@ -92,7 +92,7 @@ AWS documente aussi les bonnes pratiques de réutilisation des templates via `Pa
 Quand les templates deviennent volumineux, la lisibilité et la réutilisation peuvent devenir plus difficiles. AWS rappelle d’ailleurs des quotas comme la limite de **500 ressources déclarées par template**, et recommande alors de séparer l’infrastructure en plusieurs templates, notamment via des nested stacks. ([AWS Documentation][3])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Imaginez trois façons de construire un meuble :
@@ -228,7 +228,7 @@ flowchart TD
 Cette lecture est cohérente avec la manière dont AWS présente chacun de ces outils dans sa documentation officielle. CloudFormation est présenté comme le socle déclaratif, SAM comme le framework serverless, et CDK comme le framework de développement avec constructs et synthèse CloudFormation. ([AWS Documentation][1])
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **CloudFormation** = YAML brut, tout à la main. Vous écrivez chaque ressource vous-même.
@@ -478,7 +478,7 @@ flowchart TD
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **Débutant ?** Commencez par CloudFormation. C'est la base, et tout le reste s'appuie dessus.

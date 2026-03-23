@@ -65,7 +65,7 @@ Un bon usage de CloudFormation ne consiste pas seulement à “écrire du YAML�
 AWS regroupe exactement ces recommandations dans ses bonnes pratiques CloudFormation et dans son guide de troubleshooting. ([AWS Documentation][1])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Valider un template, c’est comme **vérifier la recette avant de cuisiner** : on s’assure que tous les ingrédients sont là et que les étapes sont cohérentes. Débugger, c’est **goûter en cours de cuisson** : on surveille l’avancement et on ajuste si quelque chose ne va pas. Sans ces deux réflexes, on risque de servir un plat immangeable (ou de casser son infrastructure).
@@ -195,7 +195,7 @@ flowchart TD
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Quand ça plante, les **événements CloudFormation** sont votre journal de bord. Lisez-les de bas en haut pour trouver la cause.
@@ -288,7 +288,7 @@ Quand une update échoue :
 Ce flux correspond directement à l’approche préconisée par AWS dans son guide de troubleshooting et de monitoring des mises à jour. ([AWS Documentation][3])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Le rollback, c’est le **Ctrl+Z automatique** de CloudFormation. Si une mise à jour échoue en cours de route, CloudFormation annule automatiquement tout ce qui a été fait et remet l’infrastructure dans l’état précédent. C’est un filet de sécurité intégré : même si quelque chose se passe mal, vous ne restez pas avec une infrastructure à moitié cassée.

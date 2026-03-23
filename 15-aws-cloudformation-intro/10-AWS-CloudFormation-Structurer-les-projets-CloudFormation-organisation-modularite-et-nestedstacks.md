@@ -70,7 +70,7 @@ Dans un petit laboratoire, un seul fichier YAML peut suffire. Mais dans un vrai 
 AWS souligne justement que les gros templates deviennent difficiles à gérer et recommande de les réorganiser en unités plus petites et plus structurées. ([AWS Documentation][1])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Imaginez un **livre entier écrit sur une seule page** : tout le texte est là, mais c'est illisible et impossible à maintenir. Les **nested stacks**, c'est comme organiser ce même contenu en **chapitres** dans un vrai livre. Chaque chapitre traite d'un sujet précis (réseau, sécurité, serveurs), et la table des matières (la stack parente) relie le tout. Résultat : on peut relire, modifier ou réutiliser un chapitre sans toucher aux autres.
@@ -352,7 +352,7 @@ flowchart LR
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **Export** = mettre une étiquette avec un numéro de téléphone sur une ressource, pour que les autres stacks puissent « appeler » cette ressource et l'utiliser.
@@ -432,7 +432,7 @@ Elle rend les projets :
 * plus proches d’une vraie architecture d’entreprise
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **Petit projet** = un seul fichier YAML suffit, pas besoin de compliquer.

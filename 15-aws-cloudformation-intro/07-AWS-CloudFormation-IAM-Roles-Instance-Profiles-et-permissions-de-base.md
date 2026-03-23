@@ -103,7 +103,7 @@ AWS recommande de ne pas stocker de credentials de longue durée dans les worklo
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Un **IAM Role**, c'est comme un **badge d'accès temporaire** dans un immeuble de bureaux. Quand un visiteur arrive, on ne lui donne pas les clés permanentes du bâtiment : on lui prête un badge qui lui ouvre certaines portes pendant une durée limitée. De la même façon, un rôle IAM donne à une instance EC2 des permissions temporaires pour accéder à certains services AWS, sans jamais stocker de mot de passe permanent sur la machine.
@@ -238,7 +238,7 @@ MonInstanceProfile:
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Un **Instance Profile** est un « porte-badge » : c'est l'objet qui permet d'attacher un rôle IAM à une instance EC2
@@ -353,7 +353,7 @@ Cette logique suit directement la bonne pratique AWS de moindre privilège. ([AW
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Le moindre privilège, c'est comme **donner la clé de la cuisine à un cuisinier, pas la clé de tout l'immeuble**. Si quelqu'un a besoin de préparer le repas, on lui donne accès à la cuisine et au frigo — pas au coffre-fort du directeur, ni au parking, ni aux bureaux. En IAM, c'est pareil : si une instance doit lire un seul bucket S3, on autorise uniquement la lecture de ce bucket, et rien d'autre.
@@ -528,7 +528,7 @@ flowchart TD
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - On crée un **rôle IAM** (le badge), un **Instance Profile** (le porte-badge), puis on attache le tout à l'**instance EC2**

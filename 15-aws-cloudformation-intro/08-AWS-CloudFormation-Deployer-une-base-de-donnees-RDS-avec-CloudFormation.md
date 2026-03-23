@@ -63,7 +63,7 @@ Dans CloudFormation, cette instance est souvent reliée à un **DB subnet group*
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Amazon RDS, c'est comme **louer un appartement meublé au lieu de construire sa propre maison**. Quand vous louez un appartement, le propriétaire s'occupe de la plomberie, de l'électricité et de l'entretien général — vous, vous vous concentrez sur y habiter. Avec RDS, AWS gère les mises à jour du moteur, les sauvegardes, la réplication — vous, vous vous concentrez sur votre application et vos données. Vous choisissez la taille de l'appartement (la classe d'instance) et le quartier (le VPC), mais vous ne touchez jamais à la tuyauterie.
@@ -211,7 +211,7 @@ flowchart LR
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Un **DB subnet group** dit à RDS « tu as le droit de vivre dans ces sous-réseaux du VPC »
@@ -273,7 +273,7 @@ flowchart LR
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Le Security Group de la base de données, c'est comme une **porte blindée avec un interphone**. Seul le serveur applicatif (qui est sur la liste autorisée) peut sonner et entrer. Tout le reste du monde est bloqué dehors. On ne donne pas l'accès à la base à n'importe qui : on autorise uniquement le serveur app sur le bon port (ex. : 3306 pour MySQL), et c'est tout.
@@ -403,7 +403,7 @@ Pour un environnement de test jetable, on peut parfois préférer une suppressio
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Sans `DeletionPolicy`, supprimer la stack = supprimer la base et toutes ses données, sans retour possible

@@ -1,23 +1,23 @@
 # Quiz Final - AWS CloudFormation (30 Questions)
 
-> **Consignes** : Pour chaque question, choisissez la **meilleure** reponse parmi les choix proposes. Une seule reponse est correcte par question, sauf indication contraire.
+> **Consignes** : Pour chaque question, choisissez la **meilleure** réponse parmi les choix proposés. Une seule réponse est correcte par question, sauf indication contraire.
 
 ---
 
 ## Question 1 - Concepts de base
 
-Quel est le role principal d'AWS CloudFormation ?
+Quel est le rôle principal d'AWS CloudFormation ?
 
 - A) Surveiller les performances des instances EC2
-- B) Deployer et gerer l'infrastructure AWS sous forme de code (IaC)
-- C) Heberger des sites web statiques
-- D) Gerer les utilisateurs et les permissions IAM
+- B) Déployer et gérer l'infrastructure AWS sous forme de code (IaC)
+- C) Héberger des sites web statiques
+- D) Gérer les utilisateurs et les permissions IAM
 
 ---
 
 ## Question 2 - Vocabulaire fondamental
 
-Comment appelle-t-on l'ensemble des ressources AWS creees a partir d'un template CloudFormation ?
+Comment appelle-t-on l'ensemble des ressources AWS créées à partir d'un template CloudFormation ?
 
 - A) Un Cluster
 - B) Un Deployment
@@ -39,7 +39,7 @@ Quelle est la **seule section obligatoire** dans un template CloudFormation ?
 
 ## Question 4 - Format de template
 
-Quels formats de fichier sont acceptes pour un template CloudFormation ?
+Quels formats de fichier sont acceptés pour un template CloudFormation ?
 
 - A) JSON uniquement
 - B) YAML uniquement
@@ -50,7 +50,7 @@ Quels formats de fichier sont acceptes pour un template CloudFormation ?
 
 ## Question 5 - VPC
 
-Dans un template CloudFormation, quelle propriete est **obligatoire** pour creer un `AWS::EC2::VPC` ?
+Dans un template CloudFormation, quelle propriété est **obligatoire** pour créer un `AWS::EC2::VPC` ?
 
 - A) `EnableDnsSupport`
 - B) `CidrBlock`
@@ -59,31 +59,31 @@ Dans un template CloudFormation, quelle propriete est **obligatoire** pour creer
 
 ---
 
-## Question 6 - Reseau
+## Question 6 - Réseau
 
-Pour qu'une instance EC2 dans un subnet puisse acceder a internet, quelles ressources CloudFormation sont necessaires ? *(plusieurs reponses)*
+Pour qu'une instance EC2 dans un subnet puisse accéder à internet, quelles ressources CloudFormation sont nécessaires ? *(plusieurs réponses)*
 
-- A) Un Internet Gateway attache au VPC, une Route Table avec une route vers 0.0.0.0/0, et un Subnet avec `MapPublicIpOnLaunch: true`
+- A) Un Internet Gateway attaché au VPC, une Route Table avec une route vers 0.0.0.0/0, et un Subnet avec `MapPublicIpOnLaunch: true`
 - B) Un NAT Gateway uniquement
-- C) Un Security Group avec une regle sortante
+- C) Un Security Group avec une règle sortante
 - D) Un VPC Endpoint vers le service Internet
 
 ---
 
 ## Question 7 - Security Group
 
-Que se passe-t-il si vous ne definissez aucune regle `SecurityGroupIngress` dans un Security Group CloudFormation ?
+Que se passe-t-il si vous ne définissez aucune règle `SecurityGroupIngress` dans un Security Group CloudFormation ?
 
-- A) Tout le trafic entrant est autorise par defaut
-- B) Tout le trafic entrant est bloque par defaut
-- C) Le stack echoue au deploiement
-- D) Le Security Group est ignore
+- A) Tout le trafic entrant est autorisé par défaut
+- B) Tout le trafic entrant est bloqué par défaut
+- C) Le stack échoue au déploiement
+- D) Le Security Group est ignoré
 
 ---
 
 ## Question 8 - EC2
 
-Quelle propriete du type `AWS::EC2::Instance` permet d'executer un script au demarrage de l'instance ?
+Quelle propriété du type `AWS::EC2::Instance` permet d'exécuter un script au démarrage de l'instance ?
 
 - A) `StartupScript`
 - B) `InitScript`
@@ -94,7 +94,7 @@ Quelle propriete du type `AWS::EC2::Instance` permet d'executer un script au dem
 
 ## Question 9 - UserData
 
-Quelle fonction intrinseque est **generalement utilisee** pour encoder le `UserData` d'une instance EC2 ?
+Quelle fonction intrinsèque est **généralement utilisée** pour encoder le `UserData` d'une instance EC2 ?
 
 - A) `!Ref`
 - B) `!Sub`
@@ -105,7 +105,7 @@ Quelle fonction intrinseque est **generalement utilisee** pour encoder le `UserD
 
 ## Question 10 - Parameters
 
-Quel type de parametre CloudFormation permet de selectionner automatiquement parmi les cles SSH existantes dans le compte AWS ?
+Quel type de paramètre CloudFormation permet de sélectionner automatiquement parmi les clés SSH existantes dans le compte AWS ?
 
 - A) `String`
 - B) `AWS::EC2::KeyPair::KeyName`
@@ -114,31 +114,31 @@ Quel type de parametre CloudFormation permet de selectionner automatiquement par
 
 ---
 
-## Question 11 - Fonctions intrinseques
+## Question 11 - Fonctions intrinsèques
 
-Quelle est la difference entre `!Ref` et `!GetAtt` ?
+Quelle est la différence entre `!Ref` et `!GetAtt` ?
 
-- A) `!Ref` retourne un attribut specifique, `!GetAtt` retourne l'identifiant logique
-- B) `!Ref` retourne l'identifiant ou la valeur par defaut, `!GetAtt` retourne un attribut specifique comme une IP ou un ARN
-- C) Il n'y a aucune difference
-- D) `!GetAtt` ne fonctionne qu'avec les parametres
+- A) `!Ref` retourne un attribut spécifique, `!GetAtt` retourne l'identifiant logique
+- B) `!Ref` retourne l'identifiant ou la valeur par défaut, `!GetAtt` retourne un attribut spécifique comme une IP ou un ARN
+- C) Il n'y a aucune différence
+- D) `!GetAtt` ne fonctionne qu'avec les paramètres
 
 ---
 
 ## Question 12 - Mappings
 
-A quoi sert la section `Mappings` dans un template CloudFormation ?
+À quoi sert la section `Mappings` dans un template CloudFormation ?
 
-- A) A definir des variables d'environnement
-- B) A creer des tables de correspondance statiques (ex: AMI par region)
-- C) A definir des parametres dynamiques
-- D) A mapper les ports reseau
+- A) À définir des variables d'environnement
+- B) À créer des tables de correspondance statiques (ex: AMI par région)
+- C) À définir des paramètres dynamiques
+- D) À mapper les ports réseau
 
 ---
 
 ## Question 13 - Conditions
 
-Quel ensemble de fonctions permet de creer des conditions dans CloudFormation ?
+Quel ensemble de fonctions permet de créer des conditions dans CloudFormation ?
 
 - A) `!If`, `!Equals`, `!And`, `!Or`, `!Not`
 - B) `!Switch`, `!Case`, `!Default`
@@ -149,18 +149,18 @@ Quel ensemble de fonctions permet de creer des conditions dans CloudFormation ?
 
 ## Question 14 - Outputs et Export
 
-A quoi sert la propriete `Export` dans la section `Outputs` ?
+À quoi sert la propriété `Export` dans la section `Outputs` ?
 
-- A) A exporter les logs du stack
-- B) A rendre une valeur disponible pour d'autres stacks via `!ImportValue`
-- C) A sauvegarder la valeur dans S3
-- D) A envoyer la valeur par email
+- A) À exporter les logs du stack
+- B) À rendre une valeur disponible pour d'autres stacks via `!ImportValue`
+- C) À sauvegarder la valeur dans S3
+- D) À envoyer la valeur par email
 
 ---
 
 ## Question 15 - S3
 
-Quelle propriete CloudFormation permet d'activer le versioning sur un bucket S3 ?
+Quelle propriété CloudFormation permet d'activer le versioning sur un bucket S3 ?
 
 - A) `VersionControl: enabled`
 - B) `BucketVersioning: true`
@@ -173,27 +173,27 @@ Quelle propriete CloudFormation permet d'activer le versioning sur un bucket S3 
 
 Que fait `DeletionPolicy: Retain` sur une ressource CloudFormation ?
 
-- A) La ressource est supprimee avec le stack
-- B) La ressource est conservee meme si le stack est supprime
-- C) La ressource est sauvegardee dans un snapshot puis supprimee
-- D) La ressource est deplacee dans un autre stack
+- A) La ressource est supprimée avec le stack
+- B) La ressource est conservée même si le stack est supprimé
+- C) La ressource est sauvegardée dans un snapshot puis supprimée
+- D) La ressource est déplacée dans un autre stack
 
 ---
 
 ## Question 17 - IAM
 
-Quel est le role d'un `AWS::IAM::InstanceProfile` dans CloudFormation ?
+Quel est le rôle d'un `AWS::IAM::InstanceProfile` dans CloudFormation ?
 
-- A) Creer un utilisateur IAM pour l'instance
-- B) Permettre a une instance EC2 d'assumer un role IAM
-- C) Definir les regles du Security Group
-- D) Configurer l'acces SSH a l'instance
+- A) Créer un utilisateur IAM pour l'instance
+- B) Permettre à une instance EC2 d'assumer un rôle IAM
+- C) Définir les règles du Security Group
+- D) Configurer l'accès SSH à l'instance
 
 ---
 
 ## Question 18 - RDS
 
-Quelle propriete de `AWS::RDS::DBInstance` determine si la base de donnees est accessible depuis internet ?
+Quelle propriété de `AWS::RDS::DBInstance` détermine si la base de données est accessible depuis internet ?
 
 - A) `InternetAccess`
 - B) `PubliclyAccessible`
@@ -204,7 +204,7 @@ Quelle propriete de `AWS::RDS::DBInstance` determine si la base de donnees est a
 
 ## Question 19 - GetAtt avec RDS
 
-Quelle syntaxe permet de recuperer l'adresse du endpoint d'une instance RDS dans un template CloudFormation ?
+Quelle syntaxe permet de récupérer l'adresse du endpoint d'une instance RDS dans un template CloudFormation ?
 
 - A) `!Ref MaDB`
 - B) `!GetAtt MaDB.Endpoint.Address`
@@ -215,7 +215,7 @@ Quelle syntaxe permet de recuperer l'adresse du endpoint d'une instance RDS dans
 
 ## Question 20 - Load Balancer
 
-Quel type de ressource CloudFormation cree un Application Load Balancer (ALB) ?
+Quel type de ressource CloudFormation crée un Application Load Balancer (ALB) ?
 
 - A) `AWS::EC2::LoadBalancer`
 - B) `AWS::ELB::ApplicationLoadBalancer`
@@ -226,7 +226,7 @@ Quel type de ressource CloudFormation cree un Application Load Balancer (ALB) ?
 
 ## Question 21 - Auto Scaling
 
-Dans un `AWS::AutoScaling::AutoScalingGroup`, quelle propriete definit le nombre minimum d'instances ?
+Dans un `AWS::AutoScaling::AutoScalingGroup`, quelle propriété définit le nombre minimum d'instances ?
 
 - A) `DesiredCapacity`
 - B) `MinInstances`
@@ -237,7 +237,7 @@ Dans un `AWS::AutoScaling::AutoScalingGroup`, quelle propriete definit le nombre
 
 ## Question 22 - Nested Stacks
 
-Quel type de ressource CloudFormation permet de creer un nested stack ?
+Quel type de ressource CloudFormation permet de créer un nested stack ?
 
 - A) `AWS::CloudFormation::NestedStack`
 - B) `AWS::CloudFormation::Stack`
@@ -248,12 +248,12 @@ Quel type de ressource CloudFormation permet de creer un nested stack ?
 
 ## Question 23 - Nested Stacks (suite)
 
-Ou doit etre stocke le template d'un nested stack pour etre reference par `TemplateURL` ?
+Où doit être stocké le template d'un nested stack pour être référencé par `TemplateURL` ?
 
 - A) Sur le disque local
 - B) Dans un bucket S3
 - C) Dans un repository CodeCommit
-- D) Dans un parametre SSM
+- D) Dans un paramètre SSM
 
 ---
 
@@ -261,38 +261,38 @@ Ou doit etre stocke le template d'un nested stack pour etre reference par `Templ
 
 Quel est l'avantage principal d'un Change Set dans CloudFormation ?
 
-- A) Il deploie automatiquement les modifications
-- B) Il permet de previsualiser les changements avant de les appliquer
+- A) Il déploie automatiquement les modifications
+- B) Il permet de prévisualiser les changements avant de les appliquer
 - C) Il annule automatiquement les erreurs
-- D) Il cree une copie de sauvegarde du stack
+- D) Il crée une copie de sauvegarde du stack
 
 ---
 
 ## Question 25 - Drift Detection
 
-Que detecte la fonctionnalite Drift Detection de CloudFormation ?
+Que détecte la fonctionnalité Drift Detection de CloudFormation ?
 
 - A) Les erreurs de syntaxe dans le template
-- B) Les differences entre la configuration actuelle des ressources et celle definie dans le template
-- C) Les ressources non utilisees
-- D) Les failles de securite
+- B) Les différences entre la configuration actuelle des ressources et celle définie dans le template
+- C) Les ressources non utilisées
+- D) Les failles de sécurité
 
 ---
 
 ## Question 26 - Bonnes pratiques
 
-Pourquoi est-il recommande de ne **jamais** ecrire des mots de passe en clair dans un template CloudFormation ?
+Pourquoi est-il recommandé de ne **jamais** écrire des mots de passe en clair dans un template CloudFormation ?
 
-- A) Cela provoque une erreur de deploiement
-- B) Les templates sont souvent versionnes dans Git et les valeurs seraient exposees
-- C) CloudFormation ne supporte pas les chaines de caracteres
-- D) Les mots de passe sont automatiquement supprimes par AWS
+- A) Cela provoque une erreur de déploiement
+- B) Les templates sont souvent versionnés dans Git et les valeurs seraient exposées
+- C) CloudFormation ne supporte pas les chaînes de caractères
+- D) Les mots de passe sont automatiquement supprimés par AWS
 
 ---
 
 ## Question 27 - Validation
 
-Quelle commande AWS CLI permet de valider la syntaxe d'un template CloudFormation **avant** le deploiement ?
+Quelle commande AWS CLI permet de valider la syntaxe d'un template CloudFormation **avant** le déploiement ?
 
 - A) `aws cloudformation check-template`
 - B) `aws cloudformation validate-template`
@@ -303,23 +303,23 @@ Quelle commande AWS CLI permet de valider la syntaxe d'un template CloudFormatio
 
 ## Question 28 - CI/CD
 
-Dans un pipeline CI/CD avec CodePipeline et CloudFormation, quelle etape vient **avant** le deploiement ?
+Dans un pipeline CI/CD avec CodePipeline et CloudFormation, quelle étape vient **avant** le déploiement ?
 
 - A) Le monitoring
 - B) Le rollback
-- C) La source (recuperation du code depuis un repository)
-- D) La mise a l'echelle automatique
+- C) La source (récupération du code depuis un repository)
+- D) La mise à l'échelle automatique
 
 ---
 
 ## Question 29 - SAM vs CloudFormation
 
-Quel est l'avantage principal d'AWS SAM par rapport a CloudFormation natif ?
+Quel est l'avantage principal d'AWS SAM par rapport à CloudFormation natif ?
 
-- A) SAM remplace completement CloudFormation
-- B) SAM fournit une syntaxe simplifiee pour les applications serverless (Lambda, API Gateway, DynamoDB)
-- C) SAM est le seul moyen de deployer des fonctions Lambda
-- D) SAM ne necessite pas de template YAML
+- A) SAM remplace complètement CloudFormation
+- B) SAM fournit une syntaxe simplifiée pour les applications serverless (Lambda, API Gateway, DynamoDB)
+- C) SAM est le seul moyen de déployer des fonctions Lambda
+- D) SAM ne nécessite pas de template YAML
 
 ---
 
@@ -327,8 +327,8 @@ Quel est l'avantage principal d'AWS SAM par rapport a CloudFormation natif ?
 
 Quelle affirmation est **vraie** concernant AWS CDK ?
 
-- A) CDK genere des templates CloudFormation a partir de code dans un langage de programmation (Python, TypeScript, etc.)
-- B) CDK remplace completement CloudFormation et ne l'utilise pas
+- A) CDK génère des templates CloudFormation à partir de code dans un langage de programmation (Python, TypeScript, etc.)
+- B) CDK remplace complètement CloudFormation et ne l'utilise pas
 - C) CDK ne supporte que le langage Java
 - D) CDK est un service de monitoring d'infrastructure
 

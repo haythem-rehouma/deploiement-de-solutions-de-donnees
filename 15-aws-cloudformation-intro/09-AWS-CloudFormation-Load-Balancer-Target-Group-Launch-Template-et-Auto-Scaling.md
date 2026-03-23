@@ -107,7 +107,7 @@ flowchart LR
 ```
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Imaginez un **réceptionniste d'hôtel** : quand des clients arrivent, il ne les envoie pas tous dans la même chambre. Il regarde quelles chambres sont disponibles et distribue les clients équitablement. L'ALB fait exactement la même chose avec les requêtes web : il reçoit le trafic des utilisateurs et le répartit entre les serveurs disponibles. Sans réceptionniste, tout le monde se retrouverait à la même porte.
@@ -208,7 +208,7 @@ Pour ce chapitre, le launch template contiendra souvent :
 Ces éléments correspondent aux propriétés classiques de configuration d’instance EC2 que l’ASG réutilisera pour lancer plusieurs machines identiques. ([AWS Documentation][7])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Le Launch Template, c'est comme une **photocopieuse**. Vous définissez le modèle original une seule fois (quel système, quelle taille, quels logiciels installer), puis vous faites autant de copies identiques que nécessaire. Chaque nouvelle instance EC2 lancée par l'Auto Scaling Group sera une copie conforme de ce modèle. Pas besoin de tout reconfigurer à chaque fois.
@@ -271,7 +271,7 @@ flowchart TD
 AWS précise que lorsqu’on met à jour le launch template d’un Auto Scaling Group, les **nouvelles** instances utiliseront la nouvelle configuration, mais les **anciennes** continuent de tourner avec l’ancienne tant qu’on ne force pas un rolling update ou un instance refresh. ([AWS Documentation][6])
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **Quand il y a beaucoup de monde, on ouvre plus de caisses. Quand c'est calme, on en ferme.** C'est exactement ce que fait l'Auto Scaling Group avec les serveurs.

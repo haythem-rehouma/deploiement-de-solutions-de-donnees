@@ -98,7 +98,7 @@ flowchart LR
 AWS souligne un point très important : un change set **n’indique pas** si la mise à jour réussira réellement. Il ne vérifie pas, par exemple, les quotas de compte, certaines limitations de mise à jour de ressources, ni toutes les permissions nécessaires. En cas d’échec, CloudFormation tente un rollback. ([AWS Documentation][3])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Un Change Set, c’est comme un **devis avant des travaux** dans votre maison. Avant de casser un mur ou de refaire la plomberie, l’entrepreneur vous montre exactement ce qui va changer, ce qui sera ajouté et ce qui sera supprimé. Vous regardez le devis, et seulement si tout vous convient, vous donnez le feu vert. Sans devis, vous découvririez les surprises une fois les travaux commencés.
@@ -251,7 +251,7 @@ AWS donne plusieurs limites importantes :
 ([AWS Documentation][5])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Le drift, c’est comme si **quelqu’un avait déplacé les meubles sans prévenir**. Vous aviez un plan précis de votre salon (le template CloudFormation), mais quelqu’un est passé et a bougé le canapé, retiré une chaise ou ajouté une table. La drift detection, c’est comparer le plan original avec l’état actuel de la pièce pour repérer tout ce qui a changé sans votre accord.
@@ -326,7 +326,7 @@ flowchart LR
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **Stack policy** = panneau « Ne pas toucher » sur certaines ressources pendant les mises à jour.

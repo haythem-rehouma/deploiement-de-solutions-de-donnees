@@ -75,7 +75,7 @@ Toutes ces propriétés sont supportées dans la ressource `AWS::EC2::Instance`.
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Une instance EC2, c'est comme **louer un ordinateur dans le cloud**. Au lieu d'acheter un serveur physique, vous louez une machine virtuelle chez AWS. Vous choisissez la puissance (type d'instance = petit ou gros PC), le système d'exploitation (AMI = Windows, Linux...), le réseau où la brancher (subnet), et les règles de sécurité (Security Group = le pare-feu). Si vous n'en avez plus besoin, vous la rendez et vous arrêtez de payer.
@@ -246,7 +246,7 @@ Beaucoup de débutants ouvrent le port 22 ou 80 dans le Security Group et pensen
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Pour qu'une EC2 soit accessible depuis Internet, il faut **trois choses réunies** : un subnet public (avec route vers Internet Gateway), une IP publique, et un Security Group qui ouvre le bon port
@@ -551,7 +551,7 @@ Si vous modifiez `UserData`, le comportement de mise à jour dépend du type de 
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 `UserData`, c'est comme une **liste de courses qu'on colle sur le frigo d'un nouvel appartement**. Quand le locataire (l'instance EC2) emménage (démarre pour la première fois), il lit la liste et exécute les tâches : « installer Apache, créer une page web, démarrer le serveur ». `Fn::Base64` est juste l'enveloppe obligatoire pour envoyer cette liste — AWS exige que le message soit « emballé » dans ce format pour le transport.
@@ -605,7 +605,7 @@ Au lieu d’aller chercher manuellement ces informations dans la console EC2, el
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Les **Outputs** sont comme un **reçu de livraison** : après la création de la stack, ils affichent les infos utiles (IP publique, DNS, ID de l'instance)

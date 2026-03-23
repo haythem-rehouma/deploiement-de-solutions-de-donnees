@@ -45,7 +45,7 @@ Dans ce projet final, l’objectif est d’assembler les briques les plus import
 Ce chapitre joue donc le rôle de synthèse : il ne s’agit plus d’apprendre une seule ressource isolément, mais de comprendre comment les relier proprement dans une architecture d’application web scalable. AWS présente justement CloudFormation comme un service permettant de modéliser et déployer un ensemble de ressources AWS de manière reproductible. ([AWS Documentation][2])
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Ce projet final, c'est comme construire un **petit centre commercial** : un terrain clôturé (VPC), des magasins (EC2), un parking avec des places qui s'adaptent au nombre de clients (Auto Scaling), un accueil qui oriente les visiteurs vers le bon magasin (ALB), un gardien qui vérifie les badges (IAM), un entrepôt pour stocker la marchandise (S3) et un fichier clients centralisé (RDS).
@@ -513,7 +513,7 @@ Outputs:
 Ce template utilise exclusivement des ressources officiellement documentées par AWS : `AWS::S3::Bucket`, `AWS::RDS::DBInstance`, `AWS::EC2::LaunchTemplate`, `AWS::AutoScaling::AutoScalingGroup`, `AWS::ElasticLoadBalancingV2::LoadBalancer` et les composants associés. AWS documente aussi `DeletionPolicy` pour S3 et RDS, ainsi que les snippets de création d’applications load-balanced avec Auto Scaling. ([AWS Documentation][6])
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Ce template fait **tout d'un coup** : réseau + serveurs + load balancer + auto scaling + permissions + stockage + base de données.
@@ -700,7 +700,7 @@ flowchart LR
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Vous avez maintenant vu comment déployer une **vraie architecture de production** avec un seul fichier CloudFormation.

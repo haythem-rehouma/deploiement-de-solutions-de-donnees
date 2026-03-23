@@ -54,7 +54,7 @@ flowchart LR
 ```
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Imaginez une **pizzeria**. Avant, quand le chef modifiait une recette, il devait manuellement aller changer l'affiche du menu dans la vitrine. Avec un pipeline CI/CD, c'est comme si le chef écrivait la nouvelle recette dans un cahier partagé (CodeCommit), et qu'un assistant automatique (CodePipeline) se chargeait immédiatement d'imprimer le nouveau menu et de le mettre en vitrine (S3). Le chef n'a plus qu'à écrire — tout le reste se fait tout seul.
@@ -128,7 +128,7 @@ flowchart TD
 ```
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 - **CodeCommit** = le **cahier de recettes** partagé de l'équipe. Chaque cuisinier peut y écrire, et on garde l'historique de toutes les modifications.
@@ -137,7 +137,7 @@ flowchart TD
 </details>
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **CodeCommit** = là où on stocke le code (comme GitHub, mais AWS)
@@ -202,7 +202,7 @@ flowchart LR
 - Collaboration facilitée entre développeurs
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **Avant** : le développeur copie les fichiers à la main vers S3 → risque d'erreur, pas d'historique
@@ -271,7 +271,7 @@ pip3 show boto3
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - On prépare notre espace de travail (IDE + fichiers + outils)
@@ -361,7 +361,7 @@ CodeCommit résout ces problèmes en fournissant un dépôt Git centralisé, sé
 ![Commentaire dans CodeCommit](./images/lab-cicd-codecommit-comment.png)
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Créer un dépôt CodeCommit, c'est comme ouvrir un **Google Docs partagé** pour le code. Au lieu que chacun ait sa propre copie sur sa clé USB, tout le monde travaille sur le même document centralisé. On peut voir qui a modifié quoi, quand, et laisser des commentaires — exactement comme dans Google Docs.
@@ -515,7 +515,7 @@ Ouvrir dans le navigateur : `https://<cloudfront_domain>/test.html`
 La page affiche **"This is a sample HTML page."** — le pipeline fonctionne !
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Le fichier JSON du pipeline, c'est comme le **plan de montage d'une chaîne de production**. On y définit : d'où viennent les matériaux (Source = CodeCommit), où on les livre (Deploy = S3), et où stocker les pièces intermédiaires (artefacts). Une fois le plan créé, la chaîne tourne toute seule à chaque nouveau push.
@@ -523,7 +523,7 @@ Le fichier JSON du pipeline, c'est comme le **plan de montage d'une chaîne de p
 </details>
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - On configure un fichier JSON qui décrit les étapes du pipeline
@@ -590,7 +590,7 @@ flowchart LR
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - **git clone** = télécharger une copie du dépôt sur votre machine
@@ -680,7 +680,7 @@ flowchart LR
 ```
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 C'est exactement comme **sauvegarder un document Word dans OneDrive**. Vous modifiez le fichier sur votre PC (VS Code), vous cliquez "enregistrer et synchroniser" (Commit & Push), et la version en ligne (CodeCommit) se met à jour. La différence, c'est qu'en plus, un robot (CodePipeline) détecte le changement et met à jour le site web automatiquement.
@@ -758,7 +758,7 @@ flowchart TD
 ```
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - On remplace le fichier test par le vrai site web
@@ -937,7 +937,7 @@ flowchart LR
 - Vérifier le déploiement automatique
 
 <details>
-<summary>🎯 Analogie finale</summary>
+<summary>Analogie finale</summary>
 <br/>
 
 Avant ce lab, Sofía était comme une **factrice** : à chaque changement du site, elle devait prendre les fichiers, marcher jusqu'à la boîte aux lettres (le bucket S3) et les déposer à la main. Maintenant, elle a installé un **système de tubes pneumatiques** (le pipeline) : elle met le code dans le tube (git push), et il arrive automatiquement à destination. Elle peut se concentrer sur l'amélioration du site au lieu de perdre du temps sur la livraison.

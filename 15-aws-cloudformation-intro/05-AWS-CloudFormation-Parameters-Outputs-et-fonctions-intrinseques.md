@@ -152,7 +152,7 @@ flowchart LR
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Imaginez le **menu d'un restaurant qui change selon le jour**. Le lundi, le plat du jour est une soupe ; le mardi, c'est une salade ; le vendredi, c'est un steak. Vous ne choisissez pas le plat du jour vous-même, c'est le restaurant qui le décide en fonction du jour. Un **Mapping** fonctionne exactement pareil : vous dites « je suis en dev », et le template décide tout seul quel type d'instance utiliser, sans vous demander de faire le calcul.
@@ -229,7 +229,7 @@ flowchart TD
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Une **condition** est une question oui/non posée au moment du déploiement (ex. : « est-ce qu'on est en production ? »)
@@ -385,7 +385,7 @@ flowchart LR
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 Les pseudo parameters, c'est comme un **GPS intégré dans votre voiture qui sait déjà où vous êtes**. Vous n'avez pas besoin de taper votre position manuellement : le GPS connaît votre pays, votre ville, votre rue. De la même façon, `AWS::Region` sait dans quelle région vous déployez, `AWS::AccountId` connaît votre compte, et `AWS::StackName` connaît le nom de votre stack. Vous n'avez rien à configurer, ces informations sont disponibles automatiquement.
@@ -598,7 +598,7 @@ flowchart TD
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - L'utilisateur choisit juste **un environnement** (dev, test ou prod) — le template fait tout le reste

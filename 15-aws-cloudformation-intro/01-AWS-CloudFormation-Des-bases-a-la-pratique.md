@@ -75,7 +75,7 @@ CloudFormation fait partie des outils AWS natifs pour cette approche. ([docs.aws
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 CloudFormation, c'est comme une **recette de cuisine**. Au lieu de cuisiner à l'improvisation (créer des ressources à la main dans la console), vous écrivez une recette complète : les ingrédients (ressources), les quantités (configurations), l'ordre de préparation (dépendances). Ensuite, vous donnez la recette au chef (CloudFormation) et il prépare le plat exactement comme décrit. Si vous voulez refaire le même plat demain, vous réutilisez la même recette et vous obtenez le même résultat à chaque fois.
@@ -210,7 +210,7 @@ flowchart TD
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - Un **template**, c'est votre liste d'achats — ce que vous voulez créer
@@ -362,7 +362,7 @@ AWS rappelle qu’un bucket S3 ne peut être supprimé que s’il est vide. Si l
 ---
 
 <details>
-<summary>🎯 Analogie simple pour comprendre</summary>
+<summary>Analogie simple pour comprendre</summary>
 <br/>
 
 `DeletionPolicy`, c'est comme une **assurance habitation**. Sans assurance (sans `DeletionPolicy`), si vous démolissez la maison (supprimez la stack), tout disparaît. Avec `DeletionPolicy: Retain`, c'est comme dire : « même si je quitte le quartier, je garde le coffre-fort ». La stack disparaît, mais la ressource précieuse (comme un bucket avec vos données) reste intacte.
@@ -544,7 +544,7 @@ flowchart LR
 ---
 
 <details>
-<summary>📌 En résumé très simple</summary>
+<summary>En résumé très simple</summary>
 <br/>
 
 - `!Ref` = « donne-moi la valeur de ce truc » — comme demander le numéro de téléphone de quelqu'un dans votre carnet de contacts
